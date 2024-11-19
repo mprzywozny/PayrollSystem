@@ -1,0 +1,55 @@
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Scanner;
+
+public class cli {
+		private String usertype;
+		private Scanner in;
+		private Scanner userfind;
+		 public cli()
+		   {
+		      in = new Scanner(System.in);
+		   }
+		 public void run()
+		         throws IOException
+		   {
+
+		      boolean more = true;
+		      
+		      while (more)
+		      { 
+		         System.out.println("user name:");
+		         String user = in.nextLine();
+		         userfind = new Scanner(new File("../group/src/users.csv"));
+		     		boolean done=false;
+		     		while(userfind.hasNext()) {
+		     			String input=userfind.nextLine();
+		     			String[] parts=input.split(",");		
+		     			if(user.equals(parts[0]))
+		     					{ 	usertype=parts[1];
+		     						System.out.printf("user:%s\nusertype:%s",user,usertype);
+		     						more=false;
+		     					}
+		     				
+		     		}
+		     			}
+		     	}
+		      
+		      
+
+public static void main(String []args) throws IOException {
+/*The application has three user types.
+ *  An employee can log in to the system, see their details, and view their most recent or historical payslips.
+ *  An admin user can log in and can add a new employee to the system. 
+ *  A human resources user can log in to implement the promotion functionality for full-time staff. 
+ *  In such cases the staff member should be asked to confirm the promotional changes being applied. 
+ *  A command line interface (CLI) should be included to facilitate this interaction between users and the application. 
+ *  The CLI should be included with the expectation that a Graphical User Interface (GUI) may be required in the future. 
+ *  In other words the separation between the text-based user interface should be well-defined to allow a graphical user interface to be substituted easily. 
+*/
+	//check user type
+	cli login = new cli();
+    login.run();
+	}
+}
