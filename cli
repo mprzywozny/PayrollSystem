@@ -7,6 +7,7 @@ public class cli {
 		private String usertype;
 		private Scanner in;
 		private Scanner userfind;
+		static String[] usertypes= {"employee","human resources","admin"};
 		 public cli()
 		   {
 		      in = new Scanner(System.in);
@@ -23,17 +24,61 @@ public class cli {
 		         String user = in.nextLine();
 		         userfind = new Scanner(new File("../group/src/users.csv"));
 		     		boolean done=false;
-		     		while(userfind.hasNext()) {
+		     		while(userfind.hasNext()&& done!=true) {
 		     			String input=userfind.nextLine();
 		     			String[] parts=input.split(",");		
 		     			if(user.equals(parts[0]))
 		     					{ 	usertype=parts[1];
-		     						System.out.printf("user:%s\nusertype:%s",user,usertype);
-		     						more=false;
+		     						System.out.printf("user:%s\nusertype:%s\n",user,usertype);
+		     						done=true;
 		     					}
 		     				
 		     		}
+		     		if(this.usertype==null) {
+		     			System.out.print("add new user?y/n");
+		     			String answer = in.nextLine();
+		     			if(answer.toUpperCase().equals("Y")) {
+		     				System.out.print("user name:");
+		     				String un = in.nextLine();
+		     				System.out.println("user type 1)employee 2)human resources 3)admin");
+		     				int ut = Integer.parseInt(in.nextLine());
+		     				usertype=usertypes[ut-1];
+		     				user u=new user(un,usertype);
+		     				
 		     			}
+		     			else {System.out.print("exiting");
+		     			more=false;}
+		     		}
+		     		  //usertypes= ["employee","human resources","admin"];
+		     		if(usertype.equals("employee")) {
+		     			//employeecli
+		     			System.out.println("e");
+		     			//see details
+		     			
+		     			//see pay slips
+		     			//confirm changes
+		     			more=false;
+		     			
+		     		}
+		     		else if(usertype.equals("human resources")){
+		     			//hr cli
+		     			System.out.println("hr");
+		     			//promote
+		     			more=false;
+		     		}
+		     		else if(usertype.equals("admin")){
+		     			//adin cli
+		     			System.out.println("a");
+		     			//add employee
+		     			System.out.print("Add employee?(y/n)");
+		     			
+		     			more=false;
+		     			
+		     		}
+		     			
+		      else {System.out.print("failed");
+		      }
+		      }
 		     	}
 		      
 		      
@@ -53,3 +98,4 @@ public static void main(String []args) throws IOException {
     login.run();
 	}
 }
+
