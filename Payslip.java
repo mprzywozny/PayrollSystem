@@ -72,7 +72,7 @@ public class Payslip {
         return additionalDetails;
     }
 
-    // Print the payslip
+    // Print the Payslip
     @Override
     public String toString() {
         return "Payslip for " + employeeName + "\n" +
