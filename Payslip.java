@@ -12,7 +12,6 @@ public class Payslip {
     private String additionalDetails;
     private double netSalary;
 
-    // Constructor
     public Payslip(String employeeName, String jobTitle, String jobCategory, int scalePoint, double salary, double deductions, LocalDate payDate, String payPeriod, String additionalDetails) {
         this.employeeName = employeeName;
         this.jobTitle = jobTitle;
@@ -26,15 +25,13 @@ public class Payslip {
         this.calculateNetSalary();
     }
 
-    // Method to calculate the net salary
     private void calculateNetSalary() {
         this.netSalary = this.salary - this.deductions;
         if (this.netSalary < 0) {
             this.netSalary = 0; // Ensure net salary is not negative
         }
     }
-
-    // Getters
+    
     public String getEmployeeName() {
         return employeeName;
     }
@@ -75,7 +72,7 @@ public class Payslip {
         return additionalDetails;
     }
 
-    // String representation of the payslip
+    // Print the payslip
     @Override
     public String toString() {
         return "Payslip for " + employeeName + "\n" +
