@@ -62,15 +62,18 @@ public class Overwrite {
 		while(line.hasNext()) {
 			String input=line.nextLine();
 			if(input.split(",").length==1&&input.equals(jc)) {
-			//System.out.println(input);
+			
 				input=line.nextLine();
+				//System.out.println(1+" "+input);
 				while(input.split(",").length>1) {
-					input=line.nextLine();
+					//System.out.println(2+" "+input);
+					
 					String[] S=input.split(",");
-					if (!choices.contains(S[0])) {
+					if (!choices.contains(S[0])&&S.length>1) {
+						//System.out.println(3+" "+input);
 						choices.add(S[0]);
 						
-				}
+				}input=line.nextLine();
 			
 				
 		}
