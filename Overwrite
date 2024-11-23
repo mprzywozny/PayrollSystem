@@ -10,7 +10,7 @@ public class Overwrite {
 	//misc methods
 	private Scanner line;
 	private PrintWriter w;
-	public void overwrite_employee(employee e) throws IOException {
+	public void overwrite_employee(FullTimeEmployee e) throws IOException {
 	ArrayList<String> temp=new ArrayList<String>();
 		line = new Scanner(new File("../group/src/employees.csv"));
 		temp.add(line.nextLine());
@@ -32,6 +32,28 @@ public class Overwrite {
 			writer.close();
 		}
 		}
+	public void overwrite_employee(PartTimeEmployee e) throws IOException {
+		ArrayList<String> temp=new ArrayList<String>();
+			line = new Scanner(new File("../group/src/Parttime employees.csv"));
+			temp.add(line.nextLine());
+			while(line.hasNext()) {
+				String i=line.nextLine();
+				String[] s=i.split(",");
+				if((s[0].toUpperCase()).equals(e.getName().toUpperCase())) {
+				temp.add(e.toString());
+				}
+			
+				else {
+					
+					temp.add(i);}
+			}
+			PrintWriter clear=new PrintWriter("../group/src/Parttime employees.csv");
+			for(String x:temp) {
+				PrintWriter writer=new PrintWriter(new FileWriter("../group/src/Parttime employees.csv",true));
+				writer.println(x.toUpperCase());
+				writer.close();
+			}
+			}
 	/**adds an employee to the file either in parttime or fulltime*/
 	public void writetolistofusers(String x,String csvlistname) throws IOException {
 		//find a new line
@@ -54,10 +76,49 @@ public class Overwrite {
 			return choices;
 			//method end
 		}
-	
+	public ArrayList<String> ptgetchoicesinjc() throws FileNotFoundException{
+		line = new Scanner(new File("../group/src/payscale for partime.csv"));
+		ArrayList<String> choices=new ArrayList<String>();
+		while(line.hasNext()) {
+			String input=line.nextLine();
+			if(input.split(",").length==1) {
+				choices.add(input);
+			}
+				
+		}
+		return choices;
+		//method end
+	}
+
 	
 	public ArrayList<String> getchoicesinjtwithjc(String jc) throws FileNotFoundException{
 		line = new Scanner(new File("../group/src/payscale.csv"));
+		ArrayList<String> choices=new ArrayList<String>();
+		while(line.hasNext()) {
+			String input=line.nextLine();
+			if(input.split(",").length==1&&input.equals(jc)) {
+			
+				input=line.nextLine();
+				//System.out.println(1+" "+input);
+				while(input.split(",").length>1) {
+					//System.out.println(2+" "+input);
+					
+					String[] S=input.split(",");
+					if (!choices.contains(S[0])&&S.length>1) {
+						//System.out.println(3+" "+input);
+						choices.add(S[0]);
+						
+				}input=line.nextLine();
+			
+				
+		}
+		}
+		}
+		return choices;
+		//method end
+	}
+	public ArrayList<String> ptgetchoicesinjtwithjc(String jc) throws FileNotFoundException{
+		line = new Scanner(new File("../group/src/payscale for partime.csv"));
 		ArrayList<String> choices=new ArrayList<String>();
 		while(line.hasNext()) {
 			String input=line.nextLine();
@@ -107,7 +168,34 @@ public class Overwrite {
 	
 		return -1;
 	}		
-			
+	
+	public int ptgetTopPayscale(String jobcatagory,String jobtitle) throws FileNotFoundException {
+		line = new Scanner(new File("../group/src/payscale for partime.csv"));
+		boolean done=false;
+		int topPayscale;
+		//line.nextLine();
+		while(line.hasNext())
+		{
+			String input=line.nextLine();
+			if(input.equals(jobcatagory)) {
+				while(line.hasNext()&&!done) {
+					input=line.nextLine();
+					String[] parts=input.split(",");
+					if(jobtitle.equals(parts[0]) )
+					{
+					input=line.nextLine();
+					return topPayscale=Integer.parseInt(parts[1]);
+					}
+				
+				}
+				}
+		}
+	
+		return -1;
+	}
+	
+	
+				
 	
 //end
 }
