@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Overwrite {
+	//misc methods
 	private Scanner line;
-	
+	private PrintWriter w;
 	public void overwrite_employee(employee e) throws IOException {
 	ArrayList<String> temp=new ArrayList<String>();
 		line = new Scanner(new File("../group/src/employees.csv"));
@@ -29,8 +31,82 @@ public class Overwrite {
 			writer.println(x.toUpperCase());
 			writer.close();
 		}
-		
-	
 		}
+	/**adds an employee to the file either in parttime or fulltime*/
+	public void writetolistofusers(String x,String csvlistname) throws IOException {
+		//find a new line
+		w=new PrintWriter(new FileWriter("../group/src/"+csvlistname+".csv",true));
+		
+		w.println(x);
+		w.close();
+		}
+	//get choices of jc
+	public ArrayList<String> getchoicesinjc() throws FileNotFoundException{
+			line = new Scanner(new File("../group/src/payscale.csv"));
+			ArrayList<String> choices=new ArrayList<String>();
+			while(line.hasNext()) {
+				String input=line.nextLine();
+				if(input.split(",").length==1) {
+					choices.add(input);
+				}
+					
+			}
+			return choices;
+			//method end
+		}
+	
+	
+	public ArrayList<String> getchoicesinjtwithjc(String jc) throws FileNotFoundException{
+		line = new Scanner(new File("../group/src/payscale.csv"));
+		ArrayList<String> choices=new ArrayList<String>();
+		while(line.hasNext()) {
+			String input=line.nextLine();
+			if(input.split(",").length==1&&input.equals(jc)) {
+			//System.out.println(input);
+				input=line.nextLine();
+				while(input.split(",").length>1) {
+					input=line.nextLine();
+					String[] S=input.split(",");
+					if (!choices.contains(S[0])) {
+						choices.add(S[0]);
+						
+				}
+			
+				
+		}
+		}
+		}
+		return choices;
+		//method end
+	}
+	
+	public int getTopPayscale(String jobcatagory,String jobtitle) throws FileNotFoundException {
+		line = new Scanner(new File("../group/src/payscale.csv"));
+		boolean done=false;
+		int topPayscale;
+		//line.nextLine();
+		while(line.hasNext())
+		{
+			String input=line.nextLine();
+			if(input.equals(jobcatagory)) {
+				while(line.hasNext()&&!done) {
+					input=line.nextLine();
+					String[] parts=input.split(",");
+					if(jobtitle.equals(parts[0]) )
+					{
+					input=line.nextLine();
+					return topPayscale=Integer.parseInt(parts[1]);
+					}
+				
+				}
+				}
+		}
+	
+		return -1;
+	}		
+			
+	
+//end
 }
+
 
