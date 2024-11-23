@@ -26,13 +26,13 @@ public class cli {
 		      while (more)
 		      {  usertype=null;
 		         System.out.println("user name:");
-		         String user = in.nextLine();
+		         String user = in.nextLine().toUpperCase();
 		         userfind = new Scanner(new File("../group/src/users.csv"));
 		     		boolean done=false;
 		     		while(userfind.hasNext()&& done!=true) {
 		     			String input=userfind.nextLine();
 		     			String[] parts=input.split(",");		
-		     			if(user.equals(parts[0]))
+		     			if(user.equals(parts[0].toUpperCase()))
 		     					{ 	usertype=parts[1];
 		     						System.out.printf("user:%s\nusertype:%s\n",user,usertype);
 		     						done=true;
@@ -66,18 +66,24 @@ public class cli {
 		     			System.out.println("e");
 		     			//see details
 		     			//see pay slips
-		     			//confirm changes
+		     			//confirm changes that admin made
 		     			more=false;
 		     			
 		     		}
+		     		
+		     		
 		     		//hr
 		     		else if(usertype.equals("human resources")){
 		     			//hr cli
 		     			boolean hrworking=true;
 		     			while(hrworking==true&&more==true) {
+		     			
 		     			System.out.println("p)romote,q)uit");
 		     			String answer = in.nextLine();
 		     			if(answer.toUpperCase().equals("P")) {
+		     				System.out.println("f)ulltime P)arttime Q)uit");
+		     				String fpq=in.nextLine();
+		     				if(fpq.toUpperCase().equals("F")) {
 		     				System.out.println("type the name of the person to promote.");
 			     			String who = in.nextLine();
 			     			Scanner line = new Scanner(new File("../group/src/employees.csv"));
@@ -91,7 +97,7 @@ public class cli {
 			     						if(who.toLowerCase().equals(parts[0].toLowerCase()))
 			     						{System.out.println(parts[0]+",is a "+parts[2]+" at scale point "+parts[3]);
 			     						foundperson=true;
-			     						e=new employee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]));
+			     						e=new FullTimeEmployee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]));
 			     						}
 			     						}
 			     			
@@ -102,11 +108,11 @@ public class cli {
 			     				
 			     				if(abq.toUpperCase().equals("A")) {
 			     					//name,jobcatagory,jobtitle,scalepoint
-			     					e.moveupsalarypoint();
+			     					((FullTimeEmployee)e).moveupsalarypoint();
 			     					String[] format=e.toString().split(",");
 			     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 			     					
-			     					o.overwrite_employee(e);
+			     					o.overwrite_employee((FullTimeEmployee)e);
 					     			}
 			     				
 					     			
@@ -114,17 +120,71 @@ public class cli {
 			     					
 			     			else if(abq.toUpperCase().equals("B")) {
 		     					//name,jobcatagory,jobtitle,scalepoint
-		     					e.moveupincatagory();
+			     				((FullTimeEmployee)e).moveupincatagory();
 		     					String[] format=e.toString().split(",");
 		     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 		     					
-		     					o.overwrite_employee(e);
+		     					o.overwrite_employee((FullTimeEmployee)e);
 			     			}
 			     			else if(abq.toUpperCase().equals("Q")) {
 			     				System.out.println("exited the program");
 			     				more=false;
 			     				hrworking=false;
-			     				}}}
+			     				}}}//end of f
+		     			else if(fpq.toUpperCase().equals("P")) {
+		     				//parttime to edit
+		     			
+		     				System.out.println("type the name of the person to promote.");
+			     			String who = in.nextLine();
+			     			Scanner line = new Scanner(new File("../group/src/Parttime employees.csv"));
+			     			String header=line.nextLine();
+			     			boolean foundperson=false;
+			     			while(line.hasNext()) {
+			     						//finds salary
+			     						String input=line.nextLine();
+			     						String[] parts=input.split(",");
+			     						
+			     						if(who.toLowerCase().equals(parts[0].toLowerCase()))
+			     						{System.out.println(parts[0]+",is a "+parts[2]+" at scale point "+parts[3]);
+			     						foundperson=true;
+			     						e=new PartTimeEmployee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]),Double.parseDouble(parts[4]));
+			     						}
+			     						}
+			     			
+			     			if (foundperson) {
+			     				System.out.println("a) move up pay scale\nb) move up jobtitle\nq) quit");
+			     				String abq=in.nextLine();
+			     				
+			     				
+			     				if(abq.toUpperCase().equals("A")) {
+			     					//name,jobcatagory,jobtitle,scalepoint
+			     					((PartTimeEmployee) e).moveupsalarypoint();
+			     					String[] format=e.toString().split(",");
+			     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
+			     					o.overwrite_employee((PartTimeEmployee)e);
+					     			}
+			     			
+					     			
+			     				
+			     					
+			     			else if(abq.toUpperCase().equals("B")) {
+		     					//name,jobcatagory,jobtitle,scalepoint
+			     				((PartTimeEmployee) e).moveupincatagory();
+		     					String[] format=((PartTimeEmployee) e).toString().split(",");
+		     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
+		     					
+		     					o.overwrite_employee((PartTimeEmployee)e);
+		     				
+		     			}//end of p
+			     			}}
+		     				
+		     			else if(fpq.toUpperCase().equals("Q")) {
+		     				System.out.println("exited the program");
+		     				more=false;
+		     				hrworking=false;
+		     			}//end of q
+		     			}
+		     				
 		     			else if(answer.toUpperCase().equals("Q")) {
 		     				System.out.println("exited the program");
 		     				more=false;
@@ -134,20 +194,22 @@ public class cli {
 		     			}
 		     			
 		     		}
+		   
+		     		//admin
 		     else if(usertype.equals("admin")){
 		     			//admin cli
 		     			
 		     			//add employee
 		    	 boolean admin_working=true;
 		    	 
-		    	 while(admin_working) {
+		    	 while(admin_working==true&&more==true) {
 		    		 	System.out.println("Add employee?(y/n)");
-		     			String answer = in.nextLine();
-		     			if(answer.toUpperCase().equals("Y")){
+		     			String addemployee = in.nextLine();
+		     			if(addemployee.toUpperCase().equals("Y")){
 		     				//yes
 		     				System.out.println("f)ulltime P)arttime Q)uit");
-		     				answer = in.nextLine();
-		     				if(answer.toUpperCase().equals("F")) {
+		     				String answer1 = in.nextLine();
+		     				if(answer1.toUpperCase().equals("F")) {
 		     					//(String name,String jobCategory, String jobTitle, int scalePoint)
 		     					System.out.println("Name:");
 			     				String Name = in.nextLine().toUpperCase();
@@ -190,9 +252,11 @@ public class cli {
 			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",o.getTopPayscale(jobCategory, jobTitle));
 			     		        	 payscalepoint = in.nextInt();}
 			     		        	//info gathered
-			     		        	System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
+			     		        	//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
 			     		        	FullTimeEmployee f=new FullTimeEmployee(Name,jobCategory,jobTitle,payscalepoint);
 			     		        	o.writetolistofusers(f.toString(),"employees");
+			     		        	
+				     				admin_working=false;
 			     		         }else {System.out.println("sorry something went wrong try again");}//added both jc and jt
 			     		         
 			     		         }else {System.out.println("sorry something went wrong try again");}
@@ -200,13 +264,75 @@ public class cli {
 			     		           
 			     			//end of F	
 		     				}
-		     				if(answer.toUpperCase().equals("P")) {
+		     				if(answer1.toUpperCase().equals("P")) {
+		     					//(String name,String jobCategory, String jobTitle, int scalePoint)
 		     					System.out.println("Name:");
 			     				String Name = in.nextLine().toUpperCase();
+			     				//pick the job catagory
+			     				System.out.println("select job category:");
+			     				String jobCategory;
+			     				ArrayList <String> choices=o.ptgetchoicesinjc();
+			     				 char c = 'A';
+			     		         for (String choice : choices)
+			     		         {
+			     		            System.out.println(c + ") " + choice); 
+			     		            c++;
+			     		         }
+			     		         String input = in.nextLine();
+			     		         int n = input.toUpperCase().charAt(0) - 'A';
+			     		         if (0 <= n && n < choices.size()) {
+			     		        	jobCategory= choices.get(n);
+			     		        	System.out.println(jobCategory);
+			     		         
+			     		       
+			     		        System.out.println("select job title: ");
+			     				String jobTitle;
+			     				ArrayList <String> choicesofjt=o.ptgetchoicesinjtwithjc(jobCategory);
+			     				 c = 'A';
+			     		         for (String choice : choicesofjt)
+			     		         {
+			     		            System.out.println(c + ") " + choice); 
+			     		            c++;
+			     		         }
+			     		         String input2 = in.nextLine();
+			     		         int n2 = input2.toUpperCase().charAt(0) - 'A';
+			     		         if (0 <= n2 && n2 < choicesofjt.size()) {
+			     		        	jobTitle= choicesofjt.get(n2);
+			     		        	System.out.println(jobTitle);
+			     		        	
+			     		        	//payscale
+			     		        	int payscalepoint=-1;
+			     		        	//employee e =new employee();
+			     		        	while(payscalepoint<0 || payscalepoint>o.ptgetTopPayscale(jobCategory, jobTitle)) {
+			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",o.ptgetTopPayscale(jobCategory, jobTitle));
+			     		        	 payscalepoint = in.nextInt();
+			     		        	//hourly rate
+			     		        	}
+			     		        	Scanner payscalept = new Scanner(new File("../group/src/payscale for partime.csv"));
+			     		        	payscalept.nextLine();
+			     		        	double hourlyrate=0;
+			     		        	while(payscalept.hasNext())
+			     		        	{
+			     					String search=payscalept.nextLine();
+			     					input=payscalept.nextLine();
+			     					String[] parts=input.split(",");
+			     					if(parts.length>1&&jobTitle.equals(parts[0])&&Integer.parseInt(parts[1])==payscalepoint) {
+			     						hourlyrate=Double.parseDouble(parts[2]);
+			     						}
+			     		        	}
+			     		        	//info gathered
+			     		        	//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
+			     		        	PartTimeEmployee f=new PartTimeEmployee(Name,jobCategory,jobTitle,payscalepoint,hourlyrate);
+			     		        	o.writetolistofusers(f.toString(),"Parttime employees");
+			     		        	more=false;
+				     				admin_working=false;
+			     		         }else {System.out.println("sorry something went wrong try again");}//added both jc and jt
+			     		         
+			     		         }else {System.out.println("sorry something went wrong try again");}
 			     				
 		     				//end of p
 			     				}
-		     				else if(answer.toUpperCase().equals("Q")) {
+		     				else if(answer1.toUpperCase().equals("Q")) {
 		     				more=false;
 		     				admin_working=false;
 		     				}
@@ -214,12 +340,14 @@ public class cli {
 		     			//end of yes	
 		     			}
 		     			//no
-		     			else if (answer.toUpperCase().equals("N")){
+		     			else if (addemployee.toUpperCase().equals("N")){
 		     			more=false;
 		     			admin_working=false;
+		     			in.close();
 		     			}
+		     			
 		     		}
-		    	 }
+		     }
 		     			
 		      else {System.out.print("failed");
 		      
