@@ -12,6 +12,7 @@ public class cli {
 		private Scanner userfind;
 		private employee e;
 		static String[] usertypes= {"employee","human resources","admin"};
+		static Overwrite o=new Overwrite();
 		 public cli()
 		   {
 		      in = new Scanner(System.in);
@@ -104,7 +105,7 @@ public class cli {
 			     					e.moveupsalarypoint();
 			     					String[] format=e.toString().split(",");
 			     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
-			     					Overwrite o=new Overwrite();
+			     					
 			     					o.overwrite_employee(e);
 					     			}
 			     				
@@ -116,7 +117,7 @@ public class cli {
 		     					e.moveupincatagory();
 		     					String[] format=e.toString().split(",");
 		     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
-		     					Overwrite o=new Overwrite();
+		     					
 		     					o.overwrite_employee(e);
 			     			}
 			     			else if(abq.toUpperCase().equals("Q")) {
@@ -134,20 +135,91 @@ public class cli {
 		     			
 		     		}
 		     else if(usertype.equals("admin")){
-		     			//adin cli
+		     			//admin cli
 		     			
 		     			//add employee
-		     			System.out.println("Add employee?(y/n)");
+		    	 boolean admin_working=true;
+		    	 
+		    	 while(admin_working) {
+		    		 	System.out.println("Add employee?(y/n)");
 		     			String answer = in.nextLine();
 		     			if(answer.toUpperCase().equals("Y")){
-		     				System.out.println("Name:");
-		     				String Name = in.nextLine().toUpperCase();
-		     				String ;
+		     				//yes
+		     				System.out.println("f)ulltime P)arttime Q)uit");
+		     				answer = in.nextLine();
+		     				if(answer.toUpperCase().equals("F")) {
+		     					//(String name,String jobCategory, String jobTitle, int scalePoint)
+		     					System.out.println("Name:");
+			     				String Name = in.nextLine().toUpperCase();
+			     				//pick the job catagory
+			     				System.out.println("select job category:");
+			     				String jobCategory;
+			     				ArrayList <String> choices=o.getchoicesinjc();
+			     				 char c = 'A';
+			     		         for (String choice : choices)
+			     		         {
+			     		            System.out.println(c + ") " + choice); 
+			     		            c++;
+			     		         }
+			     		         String input = in.nextLine();
+			     		         int n = input.toUpperCase().charAt(0) - 'A';
+			     		         if (0 <= n && n < choices.size()) {
+			     		        	jobCategory= choices.get(n);
+			     		        	System.out.println(jobCategory);
+			     		         
+			     		       
+			     		        System.out.println("select job title: ");
+			     				String jobTitle;
+			     				ArrayList <String> choicesofjt=o.getchoicesinjtwithjc(jobCategory);
+			     				 c = 'A';
+			     		         for (String choice : choicesofjt)
+			     		         {
+			     		            System.out.println(c + ") " + choice); 
+			     		            c++;
+			     		         }
+			     		         String input2 = in.nextLine();
+			     		         int n2 = input2.toUpperCase().charAt(0) - 'A';
+			     		         if (0 <= n2 && n2 < choicesofjt.size()) {
+			     		        	jobTitle= choicesofjt.get(n2);
+			     		        	System.out.println(jobTitle);
+			     		        	
+			     		        	//payscale
+			     		        	int payscalepoint=-1;
+			     		        	//employee e =new employee();
+			     		        	while(payscalepoint<0 || payscalepoint>o.getTopPayscale(jobCategory, jobTitle)) {
+			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",o.getTopPayscale(jobCategory, jobTitle));
+			     		        	 payscalepoint = in.nextInt();}
+			     		        	//info gathered
+			     		        	System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
+			     		        	FullTimeEmployee f=new FullTimeEmployee(Name,jobCategory,jobTitle,payscalepoint);
+			     		        	o.writetolistofusers(f.toString(),"employees");
+			     		         }else {System.out.println("sorry something went wrong try again");}//added both jc and jt
+			     		         
+			     		         }else {System.out.println("sorry something went wrong try again");}
+			     		         
+			     		           
+			     			//end of F	
+		     				}
+		     				if(answer.toUpperCase().equals("P")) {
+		     					System.out.println("Name:");
+			     				String Name = in.nextLine().toUpperCase();
+			     				
+		     				//end of p
+			     				}
+		     				else if(answer.toUpperCase().equals("Q")) {
+		     				more=false;
+		     				admin_working=false;
+		     				}
+		     				
+		     			//end of yes	
 		     			}
+		     			//no
 		     			else if (answer.toUpperCase().equals("N")){
 		     			more=false;
+		     			admin_working=false;
 		     			}
 		     		}
+		    	 }
 		     			
 		      else {System.out.print("failed");
 		      
