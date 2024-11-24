@@ -65,12 +65,12 @@ public class cli {
 		     			//employeecli
 		     			
 		     			
-		     			System.out.println("Entre employee name in system:");
-		     			String answer = in.nextLine();
-		     			String Name=answer;
+		     			
+		     			String Name=user;
 		     			//confirm changes that admin made
-		     			String c=o.searchnotif(answer.toUpperCase());
-		     			if (c.equals("")) {
+		     			String c=o.searchnotif(Name.toUpperCase());
+		     			String answer;
+						if (c.equals("")) {
 		     				System.out.println("No changes were made.");
 		     			}
 		     			else {
