@@ -62,6 +62,63 @@ public class Overwrite {
 		w.println(x);
 		w.close();
 		}
+	public String searchemployees(String name,String csvname) throws FileNotFoundException {
+		line = new Scanner(new File("../group/src/"+csvname+".csv"));
+		String r="";
+		name=name.toUpperCase();
+		while(line.hasNext()) {
+			String find=line.nextLine();
+			String[] results=find.split(",");
+			if (results[0].equals(name)){
+				r=find;
+			}
+		}
+		return r;
+	}
+	
+	public String searchnotif(String name) throws FileNotFoundException {
+		line = new Scanner(new File("../group/src/notifs.csv"));
+		String r="";
+		while(line.hasNext()) {
+			String find=line.nextLine();
+			String[] results=find.split(",");
+			if (results[0].equals(name)){
+				r+=results[0]+","+results[1];
+			}
+		}
+		return r;
+	}
+	/**used in hr to mark a change */
+	public void createnotif(String name,String notif) throws IOException {
+		//find a new line
+		w=new PrintWriter(new FileWriter("../group/src/notifs.csv",true));
+		
+		w.println(name+","+notif+"!");
+		w.close();
+		}
+	/**used in employee*/
+	public void adressednotif(String name) throws IOException {
+		//find a new line
+		ArrayList<String> temp=new ArrayList<String>();
+		line = new Scanner(new File("../group/src/notifs.csv"));
+		temp.add(line.nextLine());
+		while(line.hasNext()) {
+			String i=line.nextLine();
+			String[] s=i.split(",");
+			if((s[0].toUpperCase()).equals(name.toUpperCase())) {
+			
+			}
+			else {
+				
+				temp.add(i);}
+		}
+		PrintWriter clear=new PrintWriter("../group/src/notifs.csv");
+		for(String x:temp) {
+			PrintWriter writer=new PrintWriter(new FileWriter("../group/src/notifs.csv",true));
+			writer.println(x.toUpperCase());
+			writer.close();
+		}
+		}
 	//get choices of jc
 	public ArrayList<String> getchoicesinjc() throws FileNotFoundException{
 			line = new Scanner(new File("../group/src/payscale.csv"));
