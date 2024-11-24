@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class cli {
 		private Scanner in;
 		private Scanner userfind;
 		private employee e;
+		private LocalDate Today;
 		static String[] usertypes= {"employee","human resources","admin"};
 		static Overwrite o=new Overwrite();
 		 public cli()
@@ -63,9 +65,11 @@ public class cli {
 		     		}
 		     		else if(usertype.equals("employee")) {
 		     			//employeecli
+		     			//Today=new LocalDate(0, 0, 0);
+		     			//8 November 2024
+		     			Today=LocalDate.now();
 		     			
-		     			
-		     			
+		     			//LocalDate Today = LocalDate.of(2024, 11, 25);//used for testing
 		     			String Name=user;
 		     			//confirm changes that admin made
 		     			String c=o.searchnotif(Name.toUpperCase());
@@ -97,13 +101,26 @@ public class cli {
 		     				info=o.searchemployees(Name,"Parttime employees");
 		     				String[] format=info.split(",");
 		     				
-		     				System.out.printf("name: %s\n,job title: %s\n,scale point: %d\n salary: %d\n", format[0], format[2], format[3], format[4]);
+		     				System.out.printf("name: %s\nJob title: %s\nScale point: %s\nHourly rate: %s\n", format[0], format[2], format[3], format[4]);
+		     				//Part-time employees must submit a pay claim form by the second Friday of a month in order to be paid that month.  
+		     				if(Today.getDayOfMonth()>7&&Today.getDayOfMonth()<15 && Today.getDayOfWeek()==DayOfWeek.FRIDAY ) {
+		     					//generate payslip
+		     					System.out.println("generating payslip");
+		     				}
+  
 		     			}
 		     			else if(answer.toUpperCase().equals("F")) {
 		     				info=o.searchemployees(Name,"employees");
 		     				String[] format=info.split(",");		     				
 		     				System.out.printf("name: %s\nJob title: %s\nscale point: %s\nsalary: %s\n", format[0], format[2], format[3], format[4]);
+		     				//The payroll system should generate pay slips for all full-time staff and hourly paid staff (with current claims)
+		     				//on the 25th day of each month. 
+		     				if(Today.getDayOfMonth()==25) {
+		     					//generate payslip
+		     					System.out.println("generating payslip");
+		     				}
 		     			}
+		     			//pay claim form
 		     			
 		     			//see pay slips
 		     			
