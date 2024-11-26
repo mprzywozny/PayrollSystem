@@ -1,7 +1,7 @@
 import java.io.FileNotFoundException;
 
 public class Deductions {
-    private Employee employee;
+    private String employee;
     private double grossSalary;
 
     //PRSI, USC and Income Tax are the deductions that need to be calculated
@@ -10,9 +10,10 @@ public class Deductions {
     private double incomeTax;
 
     // Constructor that takes an employee object as an argument
-    public Deductions(Employee abc) {
+    public Deductions(String abc,double grossSalary) throws FileNotFoundException {
         this.employee = abc;
-        this.grossSalary = employee.getSalary();
+        this.grossSalary=grossSalary;
+       // this.grossSalary = employee.getSalary();
         this.PRSI = calculatePRSI();
         this.USC = calculateUSC();
         this.incomeTax = calculateIncomeTax();
@@ -28,13 +29,13 @@ public class Deductions {
     public double calculateUSC() {
         int[] thresholds = {12012, (12012+13748), (12012+13748+44284)};
         if (grossSalary <= thresholds[0]) {
-            USC += grossSalary * 0.005; //0.5% for income up to €12,012
+            USC = grossSalary * 0.005; //0.5% for income up to €12,012
         } else if (grossSalary <= thresholds[1]){
-            USC += grossSalary * 0.02; //2% for the next €13,748
+            USC = grossSalary * 0.02; //2% for the next €13,748
         } else if (grossSalary <= thresholds[2]){
-            USC += grossSalary * 0.04; //4% for the next €44,248
+            USC = grossSalary * 0.04; //4% for the next €44,248
         } else {
-            USC += grossSalary * 0.08; //8% for anything higher than that
+            USC = grossSalary * 0.08; //8% for anything higher than that
         }
         return USC;
     }
@@ -86,7 +87,7 @@ public class Deductions {
     public String toString() {
         String s = "Gross salary: €" + grossSalary + "\nPRSI: €" + PRSI
                 +"\n USC: €" + USC + "\nIncome Tax: €" + incomeTax
-                + "\nNet salary: €" + netSalary();
+                + "\nNet salary: €" + netSalary()+"\n";
 
         return s;
     }
