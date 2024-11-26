@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -251,7 +252,113 @@ public class Overwrite {
 		return -1;
 	}
 	
+	public boolean inpayclaim(String name) throws FileNotFoundException {
+		line = new Scanner(new File("../group/src/payclaimSubmit.csv"));
+		
+		while(line.hasNext()) {
+			String find=line.nextLine();
+			String[] results=find.split(",");
+			if (results[0].equals(name)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	public void submitpayclaim(String name) throws IOException {
+		//find a new line
+		LocalDate timesub=LocalDate.now();
+		w=new PrintWriter(new FileWriter("../group/src/payclaimSubmit.csv",true));
+		
+		w.println(name+","+timesub);
+		w.close();
+		}
 	
+	public void payclaimdone(String name) throws IOException {
+		//find a new line
+		ArrayList<String> temp=new ArrayList<String>();
+		line = new Scanner(new File("../group/src/payclaimSubmit.csv"));
+		while(line.hasNext()) {
+			String i=line.nextLine();
+			String[] s=i.split(",");
+			if((s[0].toUpperCase()).equals(name.toUpperCase())) {
+			
+			}
+			else {
+				
+				temp.add(i);}
+		}
+		PrintWriter clear=new PrintWriter("../group/src/payclaimSubmit.csv");
+		for(String x:temp) {
+			PrintWriter writer=new PrintWriter(new FileWriter("../group/src/payclaimSubmit.csv",true));
+			writer.println(x.toUpperCase());
+			writer.close();
+		}
+	}
+	public ArrayList<String> payclaimtoArrayList() throws FileNotFoundException{
+		ArrayList<String> temp=new ArrayList<String>();
+		line = new Scanner(new File("../group/src/payclaimSubmit.csv"));
+		while(line.hasNext()) {
+			String i=line.nextLine();
+				temp.add(i);
+				
+				}
+		return temp;
+		}
+	
+	public String SearchEmployee(String name) throws FileNotFoundException{
+		
+		line = new Scanner(new File("../group/src/Parttime employees.csv"));
+		while(line.hasNext()) {
+			String i=line.nextLine();
+			String[] s=i.split(",");
+			if((s[0].toUpperCase()).equals(name.toUpperCase())) {
+			return i;
+				
+				}
+		
+		}
+		return "not found";}
+	
+	public void addtopayslip(String name,String info) throws IOException {
+		LocalDate timeadded=LocalDate.now();
+		w=new PrintWriter(new FileWriter("../group/src/payslip.csv",true));
+		
+		w.println(name+","+timeadded+","+info);
+		w.close();
+	}
+	public String seepayslip(String name, String inputdate) throws FileNotFoundException {
+	line = new Scanner(new File("../group/src/payslip.csv"));
+	String ret="";
+	while(line.hasNext()) {
+		String i=line.nextLine();
+		String[] s=i.split(",");
+		if((s[0].toUpperCase()).equals(name.toUpperCase())&&s[1].equals(inputdate)) {
+			
+			return s[2];
+			}
+		
+	}
+	return ret;
+	}
+	public ArrayList<String> getchoicesofpayslip(String Name) throws FileNotFoundException{
+		line = new Scanner(new File("../group/src/payslip.csv"));
+		ArrayList<String> choices=new ArrayList<String>();
+		line.hasNext();
+		while(line.hasNext()) {
+			String input=line.nextLine();
+			String[] inputsplit=input.split(",");
+			if(inputsplit[0].equals(Name.toUpperCase())&&!(choices.contains(inputsplit[1]))) {
+				choices.add(inputsplit[1]);
+			}
+				
+		}
+		return choices;
+		//method end
+	}
+	public void Loghours(String name) {
+		
+	}
 				
 	
 //end
