@@ -83,13 +83,4 @@ public class Deductions {
         return netSalary;
     }
 
-    @Override
-    public String toString() {
-        String s = "Gross salary: €" + grossSalary + "\nPRSI: €" + PRSI
-                +"\n USC: €" + USC + "\nIncome Tax: €" + incomeTax
-                + "\nNet salary: €" + netSalary()+"\n";
-
-        return s;
-    }
-
 }
