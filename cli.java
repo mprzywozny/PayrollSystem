@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class cli {
 		private String usertype;
 		private Scanner in;
@@ -16,7 +17,7 @@ public class cli {
 		private employee e;
 		private LocalDate Today;
 		static String[] usertypes= {"employee","human resources","admin"};
-		static Overwrite o=new Overwrite();
+		//static Overwrite o=new Overwrite();
 		static Deductions d;
 		static Payslip payslip;
 		 public cli()
@@ -40,8 +41,8 @@ public class cli {
    			if(Today.getDayOfMonth()==25) {
 				//generate payslip	
    				//find names in sub pay slip
-   				if(!(o.payclaimtoArrayList().isEmpty())) {
-   				ArrayList<String> payclaims=o.payclaimtoArrayList();//payclaims list of names submitted payclaimes
+   				if(!(payclaimtoArrayList().isEmpty())) {
+   				ArrayList<String> payclaims=payclaimtoArrayList();//payclaims list of names submitted payclaimes
    				
    				for(String p:payclaims) {
    					//find employee
@@ -60,7 +61,7 @@ public class cli {
    					    else if(firstday.getDayOfWeek()==DayOfWeek.WEDNESDAY) {secondfriday=13;}
    					    else if(firstday.getDayOfWeek()==DayOfWeek.THURSDAY) {secondfriday=14;}
    					    if(date.getDayOfMonth()<=secondfriday||date.isBefore(firstday)) {
-   					    String employeedetales=o.SearchEmployee(check[0]);
+   					    String employeedetales=SearchEmployee(check[0]);
    					    String[] eds=employeedetales.split(",");
    					    
    					    //NAME,JOBCATAGORY,JOBTYPE,SCALEPOINT,HOURLYRATE,HOURSDONE
@@ -72,8 +73,8 @@ public class cli {
    					    //String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
    					    String netpay=Double.toString(HOURSDONE*HOURLYRATE);
    					    payslip=new Payslip(eds[0],eds[2],eds[3],(HOURSDONE*HOURLYRATE),d.deductionTotal(),d.getGrossSalary());
-   					    o.addtopayslip(check[0],payslip.toString());
-   					    o.payclaimdone(check[0]);
+   					    addtopayslip(check[0],payslip.toString());
+   					    payclaimdone(check[0]);
    					    }}}
    				
    					line = new Scanner(new File("../group/src/employees.csv"));
@@ -86,7 +87,7 @@ public class cli {
    						//NAME,JOBCATAGORY,JOBTITLE,SCALEPOINT,SALARY
    					    //String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
    						payslip=new Payslip(s[0],s[2],s[3],Double.parseDouble(s[4]),d.deductionTotal(),d.getGrossSalary());
-   					    o.addtopayslip(s[0],payslip.toString());
+   					    addtopayslip(s[0],payslip.toString());
    					  
    					//print to payslip
    					
@@ -142,7 +143,7 @@ public class cli {
 		     			
 		     			String Name=user;
 		     			//confirm changes that admin made
-		     			String c=o.searchnotif(Name.toUpperCase());
+		     			String c=searchnotif(Name.toUpperCase());
 		     			String answer;
 						if (c.equals("")) {
 		     				System.out.println("No changes were made.");
@@ -159,7 +160,7 @@ public class cli {
 		     				for (String x:list) {
 		     				String[] l=x.split(",");
 		     				
-		     				o.adressednotif(l[0]);
+		     				adressednotif(l[0]);
 		     				}
 		     			}
 		     			}
@@ -168,18 +169,18 @@ public class cli {
 		     			answer = in.nextLine();
 		     			String info="";
 		     			if(answer.toUpperCase().equals("P")) {
-		     				info=o.searchemployees(Name,"Parttime employees");
+		     				info=searchemployees(Name,"Parttime employees");
 		     				String[] format=info.split(",");
 		     				
 		     				System.out.printf("name: %s\nJob title: %s\nScale point: %s\nHourly rate: %s\n", format[0], format[2], format[3], format[4]);
 		     				//Part-time employees must submit a pay claim form by the second Friday of a month in order to be paid that month.  
 		     				//if not already
-		     				if(!o.inpayclaim(Name)){
-		     				System.out.println("S)ubmit payclaim form?(Y/N) has to be done by the second friday of the month.");
+		     				if(!inpayclaim(Name)){
+		     				System.out.println("Submit payclaim form?(Y/N) has to be done by the second friday of the month.");
 		     				String Submit = in.nextLine();
 		     					if(Submit.toUpperCase().equals("Y")) {
 		     						//add to list
-		     						o.submitpayclaim(Name);
+		     						submitpayclaim(Name);
 		     					}
 		     				}
 		     				else{
@@ -187,7 +188,7 @@ public class cli {
 		     				}
 		     			}
 		     			else if(answer.toUpperCase().equals("F")) {
-		     				info=o.searchemployees(Name,"employees");
+		     				info=searchemployees(Name,"employees");
 		     				String[] format=info.split(",");		     				
 		     				System.out.printf("name: %s\nJob title: %s\nscale point: %s\nsalary: %s\n", format[0], format[2], format[3], format[4]);
 		     				//The payroll system should generate pay slips for all full-time staff and hourly paid staff (with current claims)
@@ -205,8 +206,8 @@ public class cli {
 		     				
 		     				//getchoicesofpayslip(String Name)
 		     				
-		     				if(!(o.getchoicesofpayslip(Name).isEmpty())){
-		     				ArrayList <String> choices=o.getchoicesofpayslip(Name);
+		     				if(!(getchoicesofpayslip(Name).isEmpty())){
+		     				ArrayList <String> choices=getchoicesofpayslip(Name);
 		     				System.out.println("Input date:");
 		     				 char ch = 'A';
 		     		         for (String choice : choices)
@@ -217,7 +218,7 @@ public class cli {
 		     		         String input = in.nextLine();
 		     		         int n = input.toUpperCase().charAt(0) - 'A';
 		     		        String inputdate= choices.get(n);
-		     				String ps=o.seepayslip(Name,inputdate);
+		     				String ps=seepayslip(Name,inputdate);
 		     				System.out.println(ps);}
 		     				else {System.out.print("No payslip for this employee");}
 		     			}
@@ -268,8 +269,8 @@ public class cli {
 			     					String[] format=e.toString().split(",");
 			     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 			     					String change="You have been moved up a scale point";
-			     					o.createnotif(format[0],change);
-			     					o.overwrite_employee((FullTimeEmployee)e);
+			     					createnotif(format[0],change);
+			     					overwrite_employee((FullTimeEmployee)e);
 					     			}
 			     				
 					     			
@@ -281,8 +282,8 @@ public class cli {
 		     					String[] format=e.toString().split(",");
 		     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 		     					String change="You have been moved up to the next job catagory";
-		     					o.createnotif(format[0],change);
-		     					o.overwrite_employee((FullTimeEmployee)e);
+		     					createnotif(format[0],change);
+		     					overwrite_employee((FullTimeEmployee)e);
 			     			}
 			     			else if(abq.toUpperCase().equals("Q")) {
 			     				System.out.println("exited the program");
@@ -320,8 +321,8 @@ public class cli {
 			     					String[] format=e.toString().split(",");
 			     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 			     					String change="You have been moved up a scale point";
-			     					o.createnotif(format[0],change);
-			     					o.overwrite_employee((PartTimeEmployee)e);
+			     					createnotif(format[0],change);
+			     					overwrite_employee((PartTimeEmployee)e);
 					     			}
 			     			
 					     			
@@ -333,8 +334,8 @@ public class cli {
 		     					String[] format=((PartTimeEmployee) e).toString().split(",");
 		     					System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 		     					String change="You have been moved up to the next job catagory";
-		     					o.createnotif(format[0],change);
-		     					o.overwrite_employee((PartTimeEmployee)e);
+		     					createnotif(format[0],change);
+		     					overwrite_employee((PartTimeEmployee)e);
 		     				
 		     			}//end of p
 			     			}}
@@ -377,7 +378,7 @@ public class cli {
 			     				//pick the job catagory
 			     				System.out.println("select job category:");
 			     				String jobCategory;
-			     				ArrayList <String> choices=o.getchoicesinjc();
+			     				ArrayList <String> choices=getchoicesinjc();
 			     				 char c = 'A';
 			     		         for (String choice : choices)
 			     		         {
@@ -393,7 +394,7 @@ public class cli {
 			     		       
 			     		        System.out.println("select job title: ");
 			     				String jobTitle;
-			     				ArrayList <String> choicesofjt=o.getchoicesinjtwithjc(jobCategory);
+			     				ArrayList <String> choicesofjt=getchoicesinjtwithjc(jobCategory);
 			     				 c = 'A';
 			     		         for (String choice : choicesofjt)
 			     		         {
@@ -409,14 +410,14 @@ public class cli {
 			     		        	//payscale
 			     		        	int payscalepoint=-1;
 			     		        	//employee e =new employee();
-			     		        	while(payscalepoint<0 || payscalepoint>o.getTopPayscale(jobCategory, jobTitle)) {
-			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",o.getTopPayscale(jobCategory, jobTitle));
+			     		        	while(payscalepoint<0 || payscalepoint>getTopPayscale(jobCategory, jobTitle)) {
+			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",getTopPayscale(jobCategory, jobTitle));
 			     		        	 payscalepoint = in.nextInt();}
 			     		        	//info gathered
 			     		        	//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
 			     		        	user u=new user(Name,"employee");			     		 
 			     		        	FullTimeEmployee f=new FullTimeEmployee(Name,jobCategory,jobTitle,payscalepoint);
-			     		        	o.writetolistofusers(f.toString(),"employees");
+			     		        	writetolistofusers(f.toString(),"employees");
 			     		        	
 				     				admin_working=false;
 				     				more=false;
@@ -434,7 +435,7 @@ public class cli {
 			     				//pick the job catagory
 			     				System.out.println("select job category:");
 			     				String jobCategory;
-			     				ArrayList <String> choices=o.ptgetchoicesinjc();
+			     				ArrayList <String> choices=ptgetchoicesinjc();
 			     				 char c = 'A';
 			     		         for (String choice : choices)
 			     		         {
@@ -450,7 +451,7 @@ public class cli {
 			     		       
 			     		        System.out.println("select job title: ");
 			     				String jobTitle;
-			     				ArrayList <String> choicesofjt=o.ptgetchoicesinjtwithjc(jobCategory);
+			     				ArrayList <String> choicesofjt=ptgetchoicesinjtwithjc(jobCategory);
 			     				 c = 'A';
 			     		         for (String choice : choicesofjt)
 			     		         {
@@ -466,8 +467,8 @@ public class cli {
 			     		        	//payscale
 			     		        	int payscalepoint=-1;
 			     		        	//employee e =new employee();
-			     		        	while(payscalepoint<0 || payscalepoint>o.ptgetTopPayscale(jobCategory, jobTitle)) {
-			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",o.ptgetTopPayscale(jobCategory, jobTitle));
+			     		        	while(payscalepoint<0 || payscalepoint>ptgetTopPayscale(jobCategory, jobTitle)) {
+			     		        	 System.out.printf("Select point on payscale equal to or below %d: \n",ptgetTopPayscale(jobCategory, jobTitle));
 			     		        	 payscalepoint = in.nextInt();
 			     		        	//hourly rate
 			     		        	}
@@ -489,7 +490,7 @@ public class cli {
 			     		        	//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
 			     		        	PartTimeEmployee f=new PartTimeEmployee(Name,jobCategory,jobTitle,payscalepoint,hourlyrate);
 			     		        	user u=new user(Name,"employee");			     		 
-			     		        	o.writetolistofusers(f.toString(),"Parttime employees");
+			     		        	writetolistofusers(f.toString(),"Parttime employees");
 			     		        	System.out.print("added: "+f.toString());
 			     		        	more=false;
 				     				admin_working=false;
@@ -522,6 +523,365 @@ public class cli {
 		      
 		      }}
 
+
+		 	//misc methods
+		 	private Scanner line1;
+		 	private PrintWriter w;
+		 	public void overwrite_employee(FullTimeEmployee e) throws IOException {
+		 	ArrayList<String> temp=new ArrayList<String>();
+		 		line1 = new Scanner(new File("../group/src/employees.csv"));
+		 		temp.add(line1.nextLine());
+		 		while(line1.hasNext()) {
+		 			String i=line1.nextLine();
+		 			String[] s=i.split(",");
+		 			if((s[0].toUpperCase()).equals(e.getName().toUpperCase())) {
+		 			temp.add(e.toString());
+		 			}
+		 		
+		 			else {
+		 				
+		 				temp.add(i);}
+		 		}
+		 		PrintWriter clear=new PrintWriter("../group/src/employees.csv");
+		 		for(String x:temp) {
+		 			PrintWriter writer=new PrintWriter(new FileWriter("../group/src/employees.csv",true));
+		 			writer.println(x.toUpperCase());
+		 			writer.close();
+		 		}
+		 		}
+		 	public void overwrite_employee(PartTimeEmployee e) throws IOException {
+		 		ArrayList<String> temp=new ArrayList<String>();
+		 			line1 = new Scanner(new File("../group/src/Parttime employees.csv"));
+		 			temp.add(line1.nextLine());
+		 			while(line1.hasNext()) {
+		 				String i=line1.nextLine();
+		 				String[] s=i.split(",");
+		 				if((s[0].toUpperCase()).equals(e.getName().toUpperCase())) {
+		 				temp.add(e.toString());
+		 				}
+		 			
+		 				else {
+		 					
+		 					temp.add(i);}
+		 			}
+		 			PrintWriter clear=new PrintWriter("../group/src/Parttime employees.csv");
+		 			for(String x:temp) {
+		 				PrintWriter writer=new PrintWriter(new FileWriter("../group/src/Parttime employees.csv",true));
+		 				writer.println(x.toUpperCase());
+		 				writer.close();
+		 			}
+		 			}
+		 	/**adds an employee to the file either in parttime or fulltime*/
+		 	public void writetolistofusers(String x,String csvlistname) throws IOException {
+		 		//find a new line
+		 		w=new PrintWriter(new FileWriter("../group/src/"+csvlistname+".csv",true));
+		 		
+		 		w.println(x);
+		 		w.close();
+		 		}
+		 	public String searchemployees(String name,String csvname) throws FileNotFoundException {
+		 		line1 = new Scanner(new File("../group/src/"+csvname+".csv"));
+		 		String r="";
+		 		name=name.toUpperCase();
+		 		while(line1.hasNext()) {
+		 			String find=line1.nextLine();
+		 			String[] results=find.split(",");
+		 			if (results[0].equals(name)){
+		 				r=find;
+		 			}
+		 		}
+		 		return r;
+		 	}
+		 	
+		 	public String searchnotif(String name) throws FileNotFoundException {
+		 		line1 = new Scanner(new File("../group/src/notifs.csv"));
+		 		String r="";
+		 		while(line1.hasNext()) {
+		 			String find=line1.nextLine();
+		 			String[] results=find.split(",");
+		 			if (results[0].equals(name)){
+		 				r+=results[0]+","+results[1];
+		 			}
+		 		}
+		 		return r;
+		 	}
+		 	/**used in hr to mark a change */
+		 	public void createnotif(String name,String notif) throws IOException {
+		 		//find a new line
+		 		w=new PrintWriter(new FileWriter("../group/src/notifs.csv",true));
+		 		
+		 		w.println(name+","+notif+"!");
+		 		w.close();
+		 		}
+		 	/**used in employee*/
+		 	public void adressednotif(String name) throws IOException {
+		 		//find a new line
+		 		ArrayList<String> temp=new ArrayList<String>();
+		 		line1 = new Scanner(new File("../group/src/notifs.csv"));
+		 		temp.add(line1.nextLine());
+		 		while(line1.hasNext()) {
+		 			String i=line1.nextLine();
+		 			String[] s=i.split(",");
+		 			if((s[0].toUpperCase()).equals(name.toUpperCase())) {
+		 			
+		 			}
+		 			else {
+		 				
+		 				temp.add(i);}
+		 		}
+		 		PrintWriter clear=new PrintWriter("../group/src/notifs.csv");
+		 		for(String x:temp) {
+		 			PrintWriter writer=new PrintWriter(new FileWriter("../group/src/notifs.csv",true));
+		 			writer.println(x.toUpperCase());
+		 			writer.close();
+		 		}
+		 		}
+		 	//get choices of jc
+		 	public ArrayList<String> getchoicesinjc() throws FileNotFoundException{
+		 			line1 = new Scanner(new File("src/payscale.csv"));
+		 			ArrayList<String> choices=new ArrayList<String>();
+		 			while(line1.hasNext()) {
+		 				String input=line1.nextLine();
+		 				if(input.split(",").length==1) {
+		 					choices.add(input);
+		 				}
+		 					
+		 			}
+		 			return choices;
+		 			//method end
+		 		}
+		 	public ArrayList<String> ptgetchoicesinjc() throws FileNotFoundException{
+		 		line1 = new Scanner(new File("src/payscale for partime.csv"));
+		 		ArrayList<String> choices=new ArrayList<String>();
+		 		while(line1.hasNext()) {
+		 			String input=line1.nextLine();
+		 			if(input.split(",").length==1) {
+		 				choices.add(input);
+		 			}
+		 				
+		 		}
+		 		return choices;
+		 		//method end
+		 	}
+
+		 	
+		 	public ArrayList<String> getchoicesinjtwithjc(String jc) throws FileNotFoundException{
+		 		line1 = new Scanner(new File("../group/src/payscale.csv"));
+		 		ArrayList<String> choices=new ArrayList<String>();
+		 		while(line1.hasNext()) {
+		 			String input=line1.nextLine();
+		 			if(input.split(",").length==1&&input.equals(jc)) {
+		 			
+		 				input=line1.nextLine();
+		 				//System.out.println(1+" "+input);
+		 				while(input.split(",").length>1) {
+		 					//System.out.println(2+" "+input);
+		 					
+		 					String[] S=input.split(",");
+		 					if (!choices.contains(S[0])&&S.length>1) {
+		 						//System.out.println(3+" "+input);
+		 						choices.add(S[0]);
+		 						
+		 				}input=line1.nextLine();
+		 			
+		 				
+		 		}
+		 		}
+		 		}
+		 		return choices;
+		 		//method end
+		 	}
+		 	public ArrayList<String> ptgetchoicesinjtwithjc(String jc) throws FileNotFoundException{
+		 		line1 = new Scanner(new File("../group/src/payscale for partime.csv"));
+		 		ArrayList<String> choices=new ArrayList<String>();
+		 		while(line1.hasNext()) {
+		 			String input=line1.nextLine();
+		 			if(input.split(",").length==1&&input.equals(jc)) {
+		 			
+		 				input=line.nextLine();
+		 				//System.out.println(1+" "+input);
+		 				while(input.split(",").length>1) {
+		 					//System.out.println(2+" "+input);
+		 					
+		 					String[] S=input.split(",");
+		 					if (!choices.contains(S[0])&&S.length>1) {
+		 						//System.out.println(3+" "+input);
+		 						choices.add(S[0]);
+		 						
+		 				}input=line1.nextLine();
+		 			
+		 				
+		 		}
+		 		}
+		 		}
+		 		return choices;
+		 		//method end
+		 	}
+		 	
+		 	public int getTopPayscale(String jobcatagory,String jobtitle) throws FileNotFoundException {
+		 		line1 = new Scanner(new File("../group/src/payscale.csv"));
+		 		boolean done=false;
+		 		int topPayscale;
+		 		//line.nextLine();
+		 		while(line1.hasNext())
+		 		{
+		 			String input=line1.nextLine();
+		 			if(input.equals(jobcatagory)) {
+		 				while(line1.hasNext()&&!done) {
+		 					input=line1.nextLine();
+		 					String[] parts=input.split(",");
+		 					if(jobtitle.equals(parts[0]) )
+		 					{
+		 					input=line1.nextLine();
+		 					return topPayscale=Integer.parseInt(parts[1]);
+		 					}
+		 				
+		 				}
+		 				}
+		 		}
+		 	
+		 		return -1;
+		 	}		
+		 	
+		 	public int ptgetTopPayscale(String jobcatagory,String jobtitle) throws FileNotFoundException {
+		 		line1 = new Scanner(new File("../group/src/payscale for partime.csv"));
+		 		boolean done=false;
+		 		int topPayscale;
+		 		//line.nextLine();
+		 		while(line1.hasNext())
+		 		{
+		 			String input=line1.nextLine();
+		 			if(input.equals(jobcatagory)) {
+		 				while(line1.hasNext()&&!done) {
+		 					input=line1.nextLine();
+		 					String[] parts=input.split(",");
+		 					if(jobtitle.equals(parts[0]) )
+		 					{
+		 					input=line1.nextLine();
+		 					return topPayscale=Integer.parseInt(parts[1]);
+		 					}
+		 				
+		 				}
+		 				}
+		 		}
+		 	
+		 		return -1;
+		 	}
+		 	
+		 	public boolean inpayclaim(String name) throws FileNotFoundException {
+		 		line1 = new Scanner(new File("../group/src/payclaimSubmit.csv"));
+		 		
+		 		while(line1.hasNext()) {
+		 			String find=line1.nextLine();
+		 			String[] results=find.split(",");
+		 			if (results[0].equals(name)){
+		 				return true;
+		 			}
+		 		}
+		 		
+		 		return false;
+		 	}
+		 	public void submitpayclaim(String name) throws IOException {
+		 		//find a new line
+		 		LocalDate timesub=LocalDate.now();
+		 		w=new PrintWriter(new FileWriter("../group/src/payclaimSubmit.csv",true));
+		 		
+		 		w.println(name+","+timesub);
+		 		w.close();
+		 		}
+		 	
+		 	public void payclaimdone(String name) throws IOException {
+		 		//find a new line
+		 		ArrayList<String> temp=new ArrayList<String>();
+		 		line1 = new Scanner(new File("../group/src/payclaimSubmit.csv"));
+		 		while(line1.hasNext()) {
+		 			String i=line1.nextLine();
+		 			String[] s=i.split(",");
+		 			if((s[0].toUpperCase()).equals(name.toUpperCase())) {
+		 			
+		 			}
+		 			else {
+		 				
+		 				temp.add(i);}
+		 		}
+		 		PrintWriter clear=new PrintWriter("../group/src/payclaimSubmit.csv");
+		 		for(String x:temp) {
+		 			PrintWriter writer=new PrintWriter(new FileWriter("../group/src/payclaimSubmit.csv",true));
+		 			writer.println(x.toUpperCase());
+		 			writer.close();
+		 		}
+		 	}
+		 	public ArrayList<String> payclaimtoArrayList() throws FileNotFoundException{
+		 		ArrayList<String> temp=new ArrayList<String>();
+		 		line1 = new Scanner(new File("../group/src/payclaimSubmit.csv"));
+		 		while(line1.hasNext()) {
+		 			String i=line1.nextLine();
+		 				temp.add(i);
+		 				
+		 				}
+		 		return temp;
+		 		}
+		 	
+		 	public String SearchEmployee(String name) throws FileNotFoundException{
+		 		
+		 		line1 = new Scanner(new File("../group/src/Parttime employees.csv"));
+		 		while(line1.hasNext()) {
+		 			String i=line1.nextLine();
+		 			String[] s=i.split(",");
+		 			if((s[0].toUpperCase()).equals(name.toUpperCase())) {
+		 			return i;
+		 				
+		 				}
+		 		
+		 		}
+		 		return "not found";}
+		 	
+		 	public void addtopayslip(String name,String info) throws IOException {
+		 		LocalDate timeadded=LocalDate.now();
+		 		w=new PrintWriter(new FileWriter("../group/src/payslip.csv",true));
+		 		
+		 		w.println(name+","+timeadded+","+info);
+		 		w.close();
+		 	}
+		 	public String seepayslip(String name, String inputdate) throws FileNotFoundException {
+		 	line1 = new Scanner(new File("../group/src/payslip.csv"));
+		 	String ret="";
+		 	while(line1.hasNext()) {
+		 		String i=line1.nextLine();
+		 		String[] s=i.split(",");
+		 		if((s[0].toUpperCase()).equals(name.toUpperCase())&&s[1].equals(inputdate)) {
+		 			
+		 			return s[2];
+		 			}
+		 		
+		 	}
+		 	return ret;
+		 	}
+		 	public ArrayList<String> getchoicesofpayslip(String Name) throws FileNotFoundException{
+		 		line1 = new Scanner(new File("../group/src/payslip.csv"));
+		 		ArrayList<String> choices=new ArrayList<String>();
+		 		line1.hasNext();
+		 		while(line1.hasNext()) {
+		 			String input=line1.nextLine();
+		 			String[] inputsplit=input.split(",");
+		 			if(inputsplit[0].equals(Name.toUpperCase())&&!(choices.contains(inputsplit[1]))) {
+		 				choices.add(inputsplit[1]);
+		 			}
+		 				
+		 		}
+		 		return choices;
+		 		//method end
+		 	}
+		 	public void Loghours(String name) {
+		 		
+		 	}
+		 				
+		 	
+		 //end
+		 
+
+
+
 public static void main(String []args) throws IOException {
 /*The application has three user types.
  *  An employee can log in to the system, see their details, and view their most recent or historical payslips.
@@ -537,4 +897,3 @@ public static void main(String []args) throws IOException {
     login.run();
 	}
 }
-
