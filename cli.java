@@ -24,6 +24,7 @@ public class cli {
 		   {
 		      in = new Scanner(System.in);
 		   }
+	/**Starts the cli running*/
 		 public void run()
 		         throws IOException
 		   {
