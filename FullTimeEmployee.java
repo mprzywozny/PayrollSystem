@@ -11,7 +11,7 @@ import java.util.Scanner;
      * is dependent on the number of years spent at the top of the previous scale.
      */
 
-public class FullTimeEmployee extends employee {
+public class FullTimeEmployee extends Employee {
 
     /*Constructor using the same parameters as the parent class (employee)*/
     public FullTimeEmployee(String name,String jobCategory, String jobTitle, int scalePoint) throws FileNotFoundException {
