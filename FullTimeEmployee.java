@@ -2,13 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class FullTimeEmployee extends employee {
-
-    public FullTimeEmployee(String name,String jobCategory, String jobTitle, int scalePoint) throws FileNotFoundException {
-        super(jobCategory, jobTitle, scalePoint);
-    }
-
-    /** In October each year,
+  /** In October each year,
      *full-time staff are moved to the next point on their salary scale
      *(if they are not already at the top of that scale.
      * From time to time an employee may be promoted to the next salary scale
@@ -17,8 +11,14 @@ public class FullTimeEmployee extends employee {
      * is dependent on the number of years spent at the top of the previous scale.
      */
 
+public class FullTimeEmployee extends employee {
 
-    //Move staff to the next point on salary scale if they are not at the top
+    /*Constructor using the same parameters as the parent class (employee)*/
+    public FullTimeEmployee(String name,String jobCategory, String jobTitle, int scalePoint) throws FileNotFoundException {
+        super(jobCategory, jobTitle, scalePoint);
+    }
+
+    /*Method that moves staff to the next point on salary scale if they are not already at the top*/
     @Override
     public void moveupsalarypoint() throws FileNotFoundException {
         int topScale = getTopPayscale();
@@ -31,11 +31,11 @@ public class FullTimeEmployee extends employee {
         }
     }
 
-    //If the employee is already at the top of pay scale, move them to the next job category
-    //and reset scale point to 1.
+    /*If the employee is already at the top of pay scale, move them to the next job category 
+    and reset scale point to 1.*/
     public void moveupincategory() throws FileNotFoundException {
 
-        //Read the pay scale file
+        /*Read the pay scale file using scanner*/
         Scanner line = new Scanner(new File("../ulpay/src/payscale.csv"));
 
         String currentTitle=this.getJobtitle(); //Current job title
@@ -51,12 +51,13 @@ public class FullTimeEmployee extends employee {
         while(!done && line.hasNext()) {
             String input=line.nextLine();
 
-            //Check if the current line in the file matches the current job category
+            /*Check if the current line in the file matches the current job category*/
             if(input.equals(this.getJobcatagory())) {
                 categoryFound = true;
                 continue;
             }
 
+            /*If the category is found, check if there is any more titles within the category*/
             if (categoryFound) {
                 if (input.isBlank()) {
                     break; // No more titles in the category
@@ -64,7 +65,7 @@ public class FullTimeEmployee extends employee {
 
                 String[] parts=input.split(",");
 
-                //Check if current title matches and change it accordingly
+                /*Check if current title matches and change it accordingly*/
                 if(currentTitle.equals(parts[0]) )
                 {
                     done=true;
@@ -75,7 +76,7 @@ public class FullTimeEmployee extends employee {
 
         }
 
-        //If promoted, change job title, update salary and reset scale point back to 1
+        /*If promoted, change job title, update salary and reset scale point back to 1, using methods from parent class*/
         if(change!=currentTitle) {
             this.setjobtitle(change);
             this.setscalepoint(1);
