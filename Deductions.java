@@ -4,12 +4,12 @@ public class Deductions {
     private String employee;
     private double grossSalary;
 
-    //PRSI, USC and Income Tax are the deductions that need to be calculated
+    /*PRSI, USC and Income Tax are the deductions that need to be calculated*/
     private double PRSI;
     private double USC;
     private double incomeTax;
 
-    // Constructor that takes an employee object as an argument
+    /* Constructor that takes an employee object as an argument as well as their gross salary*/
     public Deductions(String abc,double grossSalary) throws FileNotFoundException {
         this.employee = abc;
         this.grossSalary=grossSalary;
@@ -19,15 +19,15 @@ public class Deductions {
         this.incomeTax = calculateIncomeTax();
     }
 
-    // Method to calculate PRSI based on gross pay
+    /*Method to calculate PRSI based on gross pay(it is 4% for the majority)*/
     public double calculatePRSI() {
         PRSI = grossSalary * 0.04;
         return PRSI;
     }
 
-    // Method to find USC based on gross pay
+    /*Method to find USC based on gross pay*/
     public double calculateUSC() {
-        int[] thresholds = {12012, (12012+13748), (12012+13748+44284)};
+        int[] thresholds = {12012, (12012+13748), (12012+13748+44284)}; //Array that stores thresholds determining different rates of USC
         if (grossSalary <= thresholds[0]) {
             USC = grossSalary * 0.005; //0.5% for income up to €12,012
         } else if (grossSalary <= thresholds[1]){
@@ -40,7 +40,7 @@ public class Deductions {
         return USC;
     }
 
-    // Method to calculate Income Tax
+    /*Method to calculate Income Tax*/
     public double calculateIncomeTax() {
         double cutOff = 42000; // standard cutoff for 2024 for a single person
         double standardRate = 0.2; //20% standard rate
@@ -56,7 +56,7 @@ public class Deductions {
         return incomeTax;
     }
 
-    // Getter methods
+    /*Getter methods*/
     public double getGrossSalary(){
         return grossSalary;
     }
@@ -72,12 +72,12 @@ public class Deductions {
         return incomeTax;
     }
 
-    // Method to calculate total deductions
+    /*Method to calculate total deductions*/
     public double deductionTotal() {
-        return incomeTax + USC + PRSI;
+        return PRSI + USC + incomeTax;
     }
 
-    // Method to calculate net salary
+    /*Method to calculate net salary*/
     public double netSalary() {
         double netSalary = grossSalary - deductionTotal();
         return netSalary;
