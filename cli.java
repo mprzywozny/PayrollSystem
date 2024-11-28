@@ -1,3 +1,5 @@
+package ulpayproject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**class for cli*/
 public class cli {
 		private String usertype;
 		private Scanner in;
@@ -20,11 +22,14 @@ public class cli {
 		//static Overwrite o=new Overwrite();
 		static Deductions d;
 		static Payslip payslip;
+		/**initialises the scanner*/
 		 public cli()
 		   {
 		      in = new Scanner(System.in);
 		   }
-	/**Starts the cli running*/
+		 /**Starts the cli the CLI 
+		  * @throws java.io.IOException if a csv file is not found.
+		  * */
 		 public void run()
 		         throws IOException
 		   {
@@ -419,7 +424,8 @@ public class cli {
 			     		        	user u=new user(Name,"employee");			     		 
 			     		        	FullTimeEmployee f=new FullTimeEmployee(Name,jobCategory,jobTitle,payscalepoint);
 			     		        	writetolistofusers(f.toString(),"employees");
-			     		        	
+			     		        	System.out.print("added: "+f.toString());
+
 				     				admin_working=false;
 				     				more=false;
 			     		         }else {System.out.println("sorry something went wrong try again");}//added both jc and jt
@@ -525,9 +531,14 @@ public class cli {
 		      }}
 
 
-		 	//misc methods
+		 	
 		 	private Scanner line1;
 		 	private PrintWriter w;
+		 	/**
+		 	 * Overwrites the employee csv file with an updated employee in the space where the employee was.
+		 	 * @param e A FullTimeEmployee object.
+		 	 * @throws IOException If the file is not found it throws this exception.
+		 	 * */
 		 	public void overwrite_employee(FullTimeEmployee e) throws IOException {
 		 	ArrayList<String> temp=new ArrayList<String>();
 		 		line1 = new Scanner(new File("../group/src/employees.csv"));
@@ -543,6 +554,7 @@ public class cli {
 		 				
 		 				temp.add(i);}
 		 		}
+		 		
 		 		PrintWriter clear=new PrintWriter("../group/src/employees.csv");
 		 		for(String x:temp) {
 		 			PrintWriter writer=new PrintWriter(new FileWriter("../group/src/employees.csv",true));
@@ -550,6 +562,13 @@ public class cli {
 		 			writer.close();
 		 		}
 		 		}
+		 	/**Overwrites the employee csv file with an updated part time employee 
+		 	 * in the space where the part time employee was.
+		 	 * 
+		 	 * @param e A PartTimeEmployee object.
+		 	 * 
+		 	 * @throws IOException If the file is not found it throws this exception.
+		 	 * */
 		 	public void overwrite_employee(PartTimeEmployee e) throws IOException {
 		 		ArrayList<String> temp=new ArrayList<String>();
 		 			line1 = new Scanner(new File("../group/src/Parttime employees.csv"));
@@ -572,14 +591,27 @@ public class cli {
 		 				writer.close();
 		 			}
 		 			}
-		 	/**adds an employee to the file either in parttime or fulltime*/
-		 	public void writetolistofusers(String x,String csvlistname) throws IOException {
+		 	/**
+		 	 * Adds an employee to the file either in part time or full time based on the csv file you input.
+		 	 * @param employeeinformation employee information to be input to this csv file.
+		 	 * @param csvlistname csv file name
+		 	 * @throws IOException If file is not found*/
+		 	public void writetolistofusers(String employeeinformation,String csvlistname) throws IOException {
 		 		//find a new line
 		 		w=new PrintWriter(new FileWriter("../group/src/"+csvlistname+".csv",true));
 		 		
-		 		w.println(x);
+		 		w.println(employeeinformation);
 		 		w.close();
 		 		}
+		 	/** finds the employee name in the csv file chosen and returns that value
+		 	 * 
+		 	 * @param name The name of the employee.
+		 	 * 
+		 	 * @param csvname The name of the csv file.
+		 	 *
+		 	 * @return String employee information
+		 	 * @throws FileNotFoundException If csv file is not found it will throw this exception.
+		 	 * */
 		 	public String searchemployees(String name,String csvname) throws FileNotFoundException {
 		 		line1 = new Scanner(new File("../group/src/"+csvname+".csv"));
 		 		String r="";
@@ -593,7 +625,11 @@ public class cli {
 		 		}
 		 		return r;
 		 	}
-		 	
+		 	/**	
+		 	 * searches the notifs csv file and sees if that name is in it if it is it returns it.
+		 	 * @param name The name of the employee 
+		 	 * @return String notif information
+		 	 * @throws FileNotFoundException If no file found this exception is thrown. */
 		 	public String searchnotif(String name) throws FileNotFoundException {
 		 		line1 = new Scanner(new File("../group/src/notifs.csv"));
 		 		String r="";
@@ -606,7 +642,12 @@ public class cli {
 		 		}
 		 		return r;
 		 	}
-		 	/**used in hr to mark a change */
+		 	/**
+		 	 * Creates a notification that an employee has been promote.
+		 	 * @param name name of employee
+		 	 * @param notif notification to be input into the csv file
+		 	 * @throws IOException If the file is not found.
+		 	 * */
 		 	public void createnotif(String name,String notif) throws IOException {
 		 		//find a new line
 		 		w=new PrintWriter(new FileWriter("../group/src/notifs.csv",true));
@@ -614,7 +655,11 @@ public class cli {
 		 		w.println(name+","+notif+"!");
 		 		w.close();
 		 		}
-		 	/**used in employee*/
+		 	/**
+		 	 * Deletes notification from notif.csv
+		 	 * @param name This is the employee name that you want delete.
+		 	 * @throws IOException If the file is not found.
+		 	 * */
 		 	public void adressednotif(String name) throws IOException {
 		 		//find a new line
 		 		ArrayList<String> temp=new ArrayList<String>();
@@ -637,7 +682,10 @@ public class cli {
 		 			writer.close();
 		 		}
 		 		}
-		 	//get choices of jc
+		 	/**Searches payscale.csv for the job categories and adds them to an Array list
+		 	 * @return A List of job categories
+		 	* @throws FileNotFoundException If the file is not found.
+		 	 * */
 		 	public ArrayList<String> getchoicesinjc() throws FileNotFoundException{
 		 			line1 = new Scanner(new File("src/payscale.csv"));
 		 			ArrayList<String> choices=new ArrayList<String>();
@@ -650,7 +698,12 @@ public class cli {
 		 			}
 		 			return choices;
 		 			//method end
-		 		}
+			}
+		 	/**Searches payscale.csv for the job categories and adds them to a list
+		 	 * @return A List of job categories.
+		 	 * @throws FileNotFoundException If the file is not found.
+
+		 	 * */
 		 	public ArrayList<String> ptgetchoicesinjc() throws FileNotFoundException{
 		 		line1 = new Scanner(new File("src/payscale for partime.csv"));
 		 		ArrayList<String> choices=new ArrayList<String>();
@@ -665,7 +718,13 @@ public class cli {
 		 		//method end
 		 	}
 
-		 	
+		 	/**
+		 	 * Searches pay scale for partime.csv for the job category 
+		 	 * and adds all the job titles in the job category to the array list
+		 	 * @param jc The job category
+		 	 * @return List of job titles
+		 	 * @throws FileNotFoundException If the file is not found.
+*/
 		 	public ArrayList<String> getchoicesinjtwithjc(String jc) throws FileNotFoundException{
 		 		line1 = new Scanner(new File("../group/src/payscale.csv"));
 		 		ArrayList<String> choices=new ArrayList<String>();
@@ -692,6 +751,13 @@ public class cli {
 		 		return choices;
 		 		//method end
 		 	}
+		 	/**
+		 	 * Searches pay scale for pay scale for partime.csv for the job category 
+		 	 * and adds all the job titles in the job category to the array list,
+		 	 * @param jc The job category
+		 	 * @return List of job titles in the job category.
+		 	 ** @throws FileNotFoundException If the file is not found.
+*/
 		 	public ArrayList<String> ptgetchoicesinjtwithjc(String jc) throws FileNotFoundException{
 		 		line1 = new Scanner(new File("../group/src/payscale for partime.csv"));
 		 		ArrayList<String> choices=new ArrayList<String>();
@@ -718,7 +784,12 @@ public class cli {
 		 		return choices;
 		 		//method end
 		 	}
-		 	
+		 	/**
+		 	 * Searches for the top point of the pay scale in the payscale.csv file.
+		 	 * @param jobcatagory the job category that the job title is in.
+		 	 * @param jobtitle the job title that you want to find the top pay scale point.
+		 	 * @return pay scale point
+		 	 * @throws FileNotFoundException Throws this if the file was not found*/
 		 	public int getTopPayscale(String jobcatagory,String jobtitle) throws FileNotFoundException {
 		 		line1 = new Scanner(new File("../group/src/payscale.csv"));
 		 		boolean done=false;
@@ -743,7 +814,12 @@ public class cli {
 		 	
 		 		return -1;
 		 	}		
-		 	
+		 	/**
+		 	 * Searches for the top point of the payscale in the payscale for partime.csv file
+		 	 * @param jobcatagory the job category that the job title is in.
+		 	 * @param jobtitle the job title that you want to find the top pay scale point.
+		 	 * @return pay scale point
+		 	 * @throws FileNotFoundException This is thrown when the csv file was not found*/
 		 	public int ptgetTopPayscale(String jobcatagory,String jobtitle) throws FileNotFoundException {
 		 		line1 = new Scanner(new File("../group/src/payscale for partime.csv"));
 		 		boolean done=false;
@@ -768,7 +844,12 @@ public class cli {
 		 	
 		 		return -1;
 		 	}
-		 	
+		 	/**Checks if this employee submitted a pay claim by looking through the pay claim csv file.
+		 	 * 
+		 	 * @param name The name of employee you want to see is in payclaimSubmit.csv
+		 	 * @return If it is in the csv file or not
+		 	 *@throws FileNotFoundException This is thrown when the csv file was not found
+		 	 **/
 		 	public boolean inpayclaim(String name) throws FileNotFoundException {
 		 		line1 = new Scanner(new File("../group/src/payclaimSubmit.csv"));
 		 		
@@ -782,6 +863,11 @@ public class cli {
 		 		
 		 		return false;
 		 	}
+		 	/**
+		 	 *Adds this employee to payclaimSubmit.csv along with the time it was submitted.
+		 	 *@param name name of the employee you want to add 
+		 	 * @throws IOException This is thrown when the csv file was not found
+		 	 **/
 		 	public void submitpayclaim(String name) throws IOException {
 		 		//find a new line
 		 		LocalDate timesub=LocalDate.now();
@@ -790,7 +876,12 @@ public class cli {
 		 		w.println(name+","+timesub);
 		 		w.close();
 		 		}
-		 	
+		 	/**
+		 	 *Removes this employee from payclaimSubmit.csv.
+		 	 *@param name employee name that you want to remove from payclaimSubmit.
+		 	 * @throws IOException This is thrown when the csv file was not found
+		 	 *
+		 	 **/
 		 	public void payclaimdone(String name) throws IOException {
 		 		//find a new line
 		 		ArrayList<String> temp=new ArrayList<String>();
@@ -812,6 +903,9 @@ public class cli {
 		 			writer.close();
 		 		}
 		 	}
+		 	/**gets the pay claims form the csv files
+		 	 * @return The pay claims in payclaimSubmit.csv as a list
+		 	 @throws FileNotFoundException This is thrown when the csv file was not found*/
 		 	public ArrayList<String> payclaimtoArrayList() throws FileNotFoundException{
 		 		ArrayList<String> temp=new ArrayList<String>();
 		 		line1 = new Scanner(new File("../group/src/payclaimSubmit.csv"));
@@ -822,7 +916,11 @@ public class cli {
 		 				}
 		 		return temp;
 		 		}
-		 	
+		 	/**
+		 	 * Finds this employee in Parttime employees.csv.
+		 	 * @return Employee information
+		 	 * @param name Employee name
+		 	 @throws FileNotFoundException This is thrown when the csv file was not found*/
 		 	public String SearchEmployee(String name) throws FileNotFoundException{
 		 		
 		 		line1 = new Scanner(new File("../group/src/Parttime employees.csv"));
@@ -836,7 +934,13 @@ public class cli {
 		 		
 		 		}
 		 		return "not found";}
-		 	
+		 	/**
+		 	 * Adds a payslip to payslip.csv with a timestamp.
+		 	 * @param name Employee name
+		 	 * @param info Payslip information
+		 	 * 		 	 @throws FileNotFoundException This is thrown when the csv file was not found*/
+
+		 	  
 		 	public void addtopayslip(String name,String info) throws IOException {
 		 		LocalDate timeadded=LocalDate.now();
 		 		w=new PrintWriter(new FileWriter("../group/src/payslip.csv",true));
@@ -844,6 +948,12 @@ public class cli {
 		 		w.println(name+","+timeadded+","+info);
 		 		w.close();
 		 	}
+		 	/**
+		 	 * Gets this employee's pay slip at this date.
+		 	 * @param name Employee name
+		 	 * @param inputdate Payslip input date
+		 	 * @return the payslip of this employee at this date
+		 	 *  @throws FileNotFoundException This is thrown when the csv file was not found*/
 		 	public String seepayslip(String name, String inputdate) throws FileNotFoundException {
 		 	line1 = new Scanner(new File("../group/src/payslip.csv"));
 		 	String ret="";
@@ -857,7 +967,12 @@ public class cli {
 		 		
 		 	}
 		 	return ret;
-		 	}
+		 	}/**Finds the dates of the pay slips for this employee.
+		 		@param Name Employee name
+		 		@return the dates of this employees pay slips
+		 		 @throws FileNotFoundException This is thrown when the csv file was not found*/
+
+		 		
 		 	public ArrayList<String> getchoicesofpayslip(String Name) throws FileNotFoundException{
 		 		line1 = new Scanner(new File("../group/src/payslip.csv"));
 		 		ArrayList<String> choices=new ArrayList<String>();
@@ -873,15 +988,14 @@ public class cli {
 		 		return choices;
 		 		//method end
 		 	}
-		 	public void Loghours(String name) {
 		 		
-		 	}
-		 				
 		 	
 		 //end
 		 
 
-
+/**Uses the run method and runs the project.
+  @param args an array of strings that is used to pass command line arguments to a Java application
+ * @throws IOException if the files were not found */
 
 public static void main(String []args) throws IOException {
 /*The application has three user types.
@@ -898,3 +1012,4 @@ public static void main(String []args) throws IOException {
     login.run();
 	}
 }
+
