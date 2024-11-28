@@ -23,7 +23,7 @@ public class FullTimeEmployee extends Employee {
      * @throws FileNotFoundException If the file is not found/ invalid.
      */
     public FullTimeEmployee(String name, String jobCategory, String jobTitle, int scalePoint) throws FileNotFoundException {
-        super(jobCategory, jobTitle, scalePoint);
+        super(name, jobCategory, jobTitle, scalePoint);
     }
 
     /**
