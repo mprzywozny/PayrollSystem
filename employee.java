@@ -1,7 +1,8 @@
+package ulpayproject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner; 
-
+/**Class that represents the employees*/
 public class employee {
 	private String name;
 	private int scalepoint;
@@ -10,7 +11,13 @@ public class employee {
 	private double salary;
     Scanner line ;  // Create a Scanner object
 
-	
+	/**
+	 * Constructor for employee
+	 * @param name name of employee
+	 * @param jc job category they are in
+	 * @param jt their job title 
+	 * @param sp the scale point they are on
+	 * @throws FileNotFoundException If a file is not found this is thrown*/
 	employee(String name,String jc,String jt,int sp)throws FileNotFoundException
 	{
 		this.name=name.toUpperCase();
@@ -21,7 +28,10 @@ public class employee {
 		
 		
 	}
-	
+	/**Constructor for employee
+	 * @param input takes the input and splits into parts to initialize employee
+	 * @throws FileNotFoundException If a file is not found this is thrown*/
+	 
 
 	employee(String input)throws FileNotFoundException{
 		String[] parts=input.split(",");
@@ -38,8 +48,8 @@ public class employee {
 	
 	/**
 	 * gets the salary of this employee
-	 * returns double
-	 * @throws FileNotFoundException 
+	 * @return the salary as a double
+	 * @throws FileNotFoundException If a file is not found this is thrown
 	 * */
 	public double getSalary() throws FileNotFoundException{
 		line = new Scanner(new File("../ulpay/src/payscale.csv"));
@@ -64,38 +74,52 @@ public class employee {
 		}
 		return -1;
 	}
+	/**
+	 * gets the job category of this employee
+	 * @return The job catagory
+	 * 
+	 * */
 	public String getJobcatagory() {
 		return this.jobcatagory;
 	}
 	/**
-	 * gets the salary of this employee
-	 * @returns double
-	 * may not be as accurate as getSalary 
+	 * Gets the salary of this employee
+	 * @return The salary of this employee
+	 *
 	 * */
 	public double getsalary() {
 		return this.salary;
 	}
 	/**
-	 * gets the salary of this employee
-	 * @returns double
+	 * Gets the job title of this employee
+	 * @return the job title
 	 * */
 	public String getJobtitle(){
 		return this.jobtitle;
 	}
+	/**
+	 * Gets the scale point of this employee
+	 * @return The scale point of this employee
+	 * */
 	public int getScalepoint(){
 		return this.scalepoint;
+	}
+	/**Gets the name of the employee
+	 * @return name of employee*/
+	public String getName(){
+		return this.name;
 	}
 	//setter
 	/**
 	 * sets the scale point of the employee
-	 * @param number of the point of the scale as an int.
+	 * @param sp number of the point of the scale as an int.
 	 * */
 	public void setscalepoint(int sp) {
 		this.scalepoint=sp;
 	} 
 	/**
 	 * sets the job title of the employee
-	 * @param the title of the job gets in upper or lowercase.
+	 * @param jt the title of the job gets in upper or lowercase.
 	 * */
 	public void setjobtitle(String jt) {
 		jt.toUpperCase();
@@ -103,18 +127,24 @@ public class employee {
 	} 
 	/**
 	 * sets the job category ie. academic,information technology ect.
-	 * @param the title of the job gets in upper or lower case.*/
+	 * @param jc the title of the job gets in upper or lower case.*/
 	public void setjobcatagory(String jc) {
 		jc.toUpperCase();
 		this.jobcatagory=jc;
 	} 
+	/**
+	 * sets the salary of this employee
+	 * @param s The salary*/
+	public void manualsetSalary(double s) {
+		this.salary=s;
+	}
 	
 	/**
 	 * based on the jobtitle and scale point it finds what the salary should be and sets that as the salary
-	 * 
+	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public void setsalary() throws FileNotFoundException {
-		line = new Scanner(new File("../ulpay/src/payscale.csv"));
+		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
 		line.nextLine();
 		while(line.hasNext()&&!done)
@@ -136,10 +166,12 @@ public class employee {
 			}
 		}
 	}
-	/**gets the top of the payscale for a given profession.
+	/**Gets the top of the pay scale for a given profession.
+	 *@return the top of the payscale for this employee's job type
+	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public int getTopPayscale() throws FileNotFoundException {
-		line = new Scanner(new File("../ulpay/src/payscale.csv"));
+		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
 		int topPayscale;
 		//line.nextLine();
@@ -163,14 +195,16 @@ public class employee {
 	
 		return -1;
 	}
+	
 	/**
 	 * Moves an employee to the next job title up and sets their salary. 
 	 * It then puts them on the first point of the payscale.
-	 * 
+	 * @throws  FileNotFoundException if payscale.csv not found
+
 	 * */
 	public void moveupincatagory() throws FileNotFoundException {
 		String current=this.getJobtitle();
-		line = new Scanner(new File("../ulpay/src/payscale.csv"));
+		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
 		String change=current;
 		line.nextLine();
@@ -200,6 +234,7 @@ public class employee {
 	}
 	/**
 	 * moves employee up a salary point
+	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public void moveupsalarypoint() throws FileNotFoundException {//check if theycan move up
 		if(this.getTopPayscale()>this.scalepoint) {
@@ -210,11 +245,12 @@ public class employee {
 	}
 	
 	/**
-	 * converts datafields to string
+	 * converts datafields to string in a form that can be written into a csv file
 	 * */
 	
 	public String toString() {
-		return this.name+","+this.jobcatagory+","+this.getJobtitle()+","+this.getsalary()+" ";
+		//name,jobcatagory,jobtitle,scalepoint,salary
+		return this.name+","+this.jobcatagory+","+this.jobtitle+","+this.scalepoint+","+this.getsalary();
 	}
 	
 	
