@@ -24,7 +24,7 @@ public class Payslip {
     * @param deductions the total deductions from gross salary
     * @param grossSalary the total gross salary before deductions
     */
-    public Payslip(String employeeName, String jobTitle, String scalePoint, double salary, double deductions,double grossSalary) {
+    public Payslip(String employeeName, String jobTitle, String scalePoint, double netSalary, double deductions,double grossSalary) {
         this.employeeName = employeeName;
         this.jobTitle = jobTitle;
         this.scalePoint = scalePoint;
@@ -43,7 +43,7 @@ public class Payslip {
 
 
     /**
-    *Retrives the name of the employee
+    * Retrives the name of the employee
     *
     * @return the name of the employee
     */
@@ -53,7 +53,7 @@ public class Payslip {
 
 
     /**
-    *Retrives the job title of the employee
+    * Retrives the job title of the employee
     *
     * @return the job title of the employee
     */
@@ -64,7 +64,7 @@ public class Payslip {
 
 
     /**
-    *Retrives the salary scale point of the employee
+    * Retrives the salary scale point of the employee
     *
     * @return the salary scale point of the employee
     */
@@ -76,7 +76,7 @@ public class Payslip {
 
 
     /**
-    *Retrives the total deductions applied to the employee's salary
+    * Retrives the total deductions applied to the employee's salary
     *
     * @return the total deductions
     */
@@ -86,7 +86,7 @@ public class Payslip {
 
 
     /**
-    *Retrives the net salary of the employee after deductions
+    * Retrives the net salary of the employee after deductions
     *
     * @return the net salary
     */
@@ -94,14 +94,20 @@ public class Payslip {
         return netSalary;
     }
 
-
-   
-    /** Print the Payslip*/
+    /**
+    * Retrives the gross salary of the employee before deductions.
+    *
+    * @return the gross salary
+    */
+    public double getGrossSalary() {
+        return grossSalary;
+    }
+    
     /**
     *Returns a formatted string representation of the payslip object
     *Includes employee details and salary information
     *
-    * @retuen a string representation of the payslip
+    * @return a string representation of the payslip
     */
     @Override
     public String toString() { return "Payslip for " + employeeName  +"|"+
