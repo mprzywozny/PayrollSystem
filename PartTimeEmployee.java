@@ -8,7 +8,7 @@ import java.util.Scanner;
      * and hourly paid staff (with current claims) on the 25th day of each month.
      */
 
-public class PartTimeEmployee extends employee
+public class PartTimeEmployee extends Employee
 {
     private double hourlyRate;
     private double hoursWorked;
