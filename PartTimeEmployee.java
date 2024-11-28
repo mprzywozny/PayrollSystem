@@ -2,33 +2,35 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class PartTimeEmployee extends employee
-{
-    private double hourlyRate;
-    private double hoursWorked;
-
-    public PartTimeEmployee(String name,String jobCategory, String jobTitle, int scalePoint, double hourlyRate) throws FileNotFoundException {
-        super(name,jobCategory, jobTitle, scalePoint);
-        this.hourlyRate = hourlyRate;
-        this.hoursWorked = 0; //hours reset each month hence 0, new hours for current period are to be added using setter method below
-    }
-    /**Part-time employees must submit a pay claim form
+/**Part-time employees must submit a pay claim form
      * by the second Friday of a month in order to be paid that month.
      * The payroll system should generate pay slips for all full-time staff
      * and hourly paid staff (with current claims) on the 25th day of each month.
      */
 
-    //Getter method for hourly rate
+public class PartTimeEmployee extends employee
+{
+    private double hourlyRate;
+    private double hoursWorked;
+
+/*Constructor taking parameters from parent class(employee) and adding hourly rate*/
+    public PartTimeEmployee(String name,String jobCategory, String jobTitle, int scalePoint, double hourlyRate) throws FileNotFoundException {
+        super(name,jobCategory, jobTitle, scalePoint);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = 0; //hours reset each month hence 0, new hours for current period are to be added using setter method below
+    }
+
+    /*Getter method for hourly rate*/
     public double getHourlyRate(){
         return hourlyRate;
     }
 
-    //Getter method for hours worked
+    /*Getter method for hours worked*/
     public double getHoursWorked(){
         return hoursWorked;
     }
 
-    //Setter method to get hours worked in a given month
+    /*Setter method to get hours worked in a given month*/
     public double setHoursWorked(double hours){
         this.hoursWorked += hoursWorked + hours;
         return hoursWorked;
@@ -37,17 +39,19 @@ public class PartTimeEmployee extends employee
     	this.manualsetSalary(grossPay());
     }
 
-   //Calculate gross pay given hours worked and hourly rate
+   /*Calculate gross pay given hours worked and hourly rate*/
     public double grossPay() {
         double grossPay = hoursWorked * hourlyRate;
         return grossPay;
     }
 
-    //Claim form method
+    /*Claim form method*/
     public void payClaim() {
         this.hoursWorked = 0;
         System.out.printf("Pay claim submitted successfully. Gross pay: %.2f", grossPay());
     }
+
+	/*Method to move staff up to the next category, same as in full time employee class and employee*/
     @Override
 	public void moveupincatagory() throws FileNotFoundException {
 		String current=this.getJobtitle();
@@ -80,6 +84,8 @@ public class PartTimeEmployee extends employee
 		else {System.out.print("At the top\n");}
 		
 	}
+
+	/*Method to get the top pay scale for given category*/
 	public int gettopPayscale() throws FileNotFoundException {
 		line = new Scanner(new File("../group/src/payscale for partime.csv"));
 		
@@ -109,7 +115,8 @@ public class PartTimeEmployee extends employee
 	
 		return -1;
 	}
-	
+
+	/*Method to update employee's salary if moved up in category*/
 	public void moveupsalarypoint() throws FileNotFoundException {//check if theycan move up
 		if(this.gettopPayscale()>this.getScalepoint()) {
 			this.setscalepoint(this.getScalepoint()+1);
@@ -117,6 +124,8 @@ public class PartTimeEmployee extends employee
 			;}
 		else {System.out.println("Top of payscale\n");}
 	}
+	
+	/*To string method*/
     @Override
     public String toString() {
     	return this.getName()+","+this.getJobcatagory()+","+this.getJobtitle()+","+this.getScalepoint()+","+this.hourlyRate+","+this.hoursWorked ;
