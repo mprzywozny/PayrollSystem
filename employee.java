@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner; 
 /**Class that represents the employees*/
-public class employee {
+public class Employee {
 	private String name;
 	private int scalepoint;
 	private String jobtitle;
@@ -18,12 +18,12 @@ public class employee {
 	 * @param jt their job title 
 	 * @param sp the scale point they are on
 	 * @throws FileNotFoundException If a file is not found this is thrown*/
-	employee(String name,String jc,String jt,int sp)throws FileNotFoundException
+	Employee(String name,String jc,String jt,int sp)throws FileNotFoundException
 	{
-		this.name=name.toUpperCase();
-		this.jobcategory=jc.toUpperCase();
-		this.jobtitle=jt.toUpperCase();
-		this.scalepoint=sp;
+		this.name = name.toUpperCase();
+		this.jobcategory = jc.toUpperCase();
+		this.jobtitle = jt.toUpperCase();
+		this.scalepoint = sp;
 		this.setsalary();
 		
 		
@@ -33,7 +33,7 @@ public class employee {
 	 * @throws FileNotFoundException If a file is not found this is thrown*/
 	 
 
-	employee(String input)throws FileNotFoundException{
+	Employee(String input)throws FileNotFoundException{
 		String[] parts=input.split(",");
 
 		this.name=parts[0].toUpperCase();
@@ -121,14 +121,13 @@ public class employee {
 	 * sets the job title of the employee
 	 * @param jt the title of the job gets in upper or lowercase.
 	 * */
-	public void setjobtitle(String jt) {
-		jt.toUpperCase();
-		this.jobtitle=jt;
+	public void setJobTitle(String jt) {
+	     this.jobtitle = jt.toUpperCase();
 	} 
 	/**
 	 * sets the job category ie. academic,information technology ect.
 	 * @param jc the title of the job gets in upper or lower case.*/
-	public void setjobcategory(String jc) {
+	public void setJobcategory(String jc) {
 		jc.toUpperCase();
 		this.jobcategory=jc;
 	} 
