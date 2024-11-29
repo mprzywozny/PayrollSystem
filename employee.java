@@ -5,9 +5,9 @@ import java.util.Scanner;
 /**Class that represents the employees*/
 public class Employee {
 	private String name;
-	private int scalepoint;
-	private String jobtitle;
-	private String jobcategory;
+	private int scalePoint;
+	private String jobTitle;
+	private String jobCategory;
 	private double salary;
     Scanner line ;  // Create a Scanner object
 
@@ -21,7 +21,7 @@ public class Employee {
 	Employee(String name,String jc,String jt,int sp)throws FileNotFoundException
 	{
 		this.name = name.toUpperCase();
-		this.jobcategory = jc.toUpperCase();
+		this.jobCategory = jc.toUpperCase();
 		this.jobtitle = jt.toUpperCase();
 		this.scalepoint = sp;
 		this.setsalary();
@@ -37,7 +37,7 @@ public class Employee {
 		String[] parts=input.split(",");
 
 		this.name=parts[0].toUpperCase();
-		this.jobcategory=parts[1].toUpperCase();
+		this.jobCategory=parts[1].toUpperCase();
 		this.jobtitle=parts[2].toUpperCase();
 		this.scalepoint=Integer.parseInt(parts[3]);
 		this.setsalary();
@@ -58,13 +58,13 @@ public class Employee {
 		while(line.hasNext())
 		{
 			String input=line.nextLine();
-			if(input.equals(this.getJobcatagory())) {
+			if(input.equals(this.getJobCategory())) {
 				while(line.hasNext()) {
 					//finds salary
 					input=line.nextLine();
 					String[] parts=input.split(",");
 					
-					if(this.scalepoint==Integer.parseInt(parts[1]) && this.jobtitle.equals(parts[0]) )
+					if(this.scalePoint==Integer.parseInt(parts[1]) && this.jobTitle.equals(parts[0]) )
 					{
 						return Double.parseDouble(parts[2]);
 					}
@@ -79,8 +79,8 @@ public class Employee {
 	 * @return The job catagory
 	 * 
 	 * */
-	public String getJobcategory() {
-		return this.jobcategory;
+	public String getJobCategory() {
+		return this.jobCategory;
 	}
 	/**
 	 * Gets the salary of this employee
@@ -94,15 +94,15 @@ public class Employee {
 	 * Gets the job title of this employee
 	 * @return the job title
 	 * */
-	public String getJobtitle(){
-		return this.jobtitle;
+	public String getJobTitle(){
+		return this.jobTitle;
 	}
 	/**
 	 * Gets the scale point of this employee
 	 * @return The scale point of this employee
 	 * */
-	public int getScalepoint(){
-		return this.scalepoint;
+	public int getScalePoint(){
+		return this.scalePoint;
 	}
 	/**Gets the name of the employee
 	 * @return name of employee*/
@@ -114,7 +114,7 @@ public class Employee {
 	 * sets the scale point of the employee
 	 * @param sp number of the point of the scale as an int.
 	 * */
-	public void setscalepoint(int sp) {
+	public void setScalePoint(int sp) {
 		this.scalepoint=sp;
 	} 
 	/**
@@ -122,14 +122,13 @@ public class Employee {
 	 * @param jt the title of the job gets in upper or lowercase.
 	 * */
 	public void setJobTitle(String jt) {
-	     this.jobtitle = jt.toUpperCase();
+	     this.jobTitle = jt.toUpperCase();
 	} 
 	/**
 	 * sets the job category ie. academic,information technology ect.
 	 * @param jc the title of the job gets in upper or lower case.*/
-	public void setJobcategory(String jc) {
-		jc.toUpperCase();
-		this.jobcategory=jc;
+	public void setJobCategory(String jc) {
+		this.jobCategory = jc.toUpperCase();
 	} 
 	/**
 	 * sets the salary of this employee
@@ -142,20 +141,20 @@ public class Employee {
 	 * based on the jobtitle and scale point it finds what the salary should be and sets that as the salary
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
-	public void setsalary() throws FileNotFoundException {
+	public void setSalary() throws FileNotFoundException {
 		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
 		line.nextLine();
 		while(line.hasNext()&&!done)
 		{
 			String input=line.nextLine();
-			if(input.equals(this.jobcatagory)) {
+			if(input.equals(this.jobCatagory)) {
 				while(line.hasNext()&&!done) {
 					//finds salary
 					input=line.nextLine();
 					String[] parts=input.split(",");
 					
-					if(this.scalepoint==Integer.parseInt(parts[1]) && this.jobtitle.equals(parts[0]) )
+					if(this.scalePoint==Integer.parseInt(parts[1]) && this.jobTitle.equals(parts[0]) )
 					{
 						this.salary=Double.parseDouble(parts[2]);
 						done=true;
@@ -169,23 +168,23 @@ public class Employee {
 	 *@return the top of the payscale for this employee's job type
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
-	public int getTopPayscale() throws FileNotFoundException {
+	public int getTopPayScale() throws FileNotFoundException {
 		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
-		int topPayscale;
+		int topPayScale;
 		//line.nextLine();
 		while(line.hasNext())
 		{
 			String input=line.nextLine();
-			if(input.equals(this.jobcatagory)) {
+			if(input.equals(this.jobCategory)) {
 				while(line.hasNext()&&!done) {
 					input=line.nextLine();
 					String[] parts=input.split(",");
-					if( this.jobtitle.equals(parts[0]) )
+					if( this.jobTitle.equals(parts[0]) )
 					{
 					input=line.nextLine();
 					
-					return topPayscale=Integer.parseInt(parts[1]);
+					return topPayScale=Integer.parseInt(parts[1]);
 					}
 				
 				}
@@ -201,15 +200,15 @@ public class Employee {
 	 * @throws  FileNotFoundException if payscale.csv not found
 
 	 * */
-	public void moveupincategory() throws FileNotFoundException {
-		String current=this.getJobtitle();
+	public void moveUpInCategory() throws FileNotFoundException {
+		String current=this.getJobTitle();
 		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
 		String change=current;
 		line.nextLine();
 		while(!done&&line.hasNext()) {
 			String input=line.nextLine();
-			if(input.equals(this.jobcategory)) {
+			if(input.equals(this.jobCategory)) {
 				//in the right catagory
 				while(line.hasNext()&&!done) {
 					input=line.nextLine();
@@ -225,9 +224,9 @@ public class Employee {
 			
 		}
 		if(change!=current) {
-		this.setjobtitle(change);
-		this.setscalepoint(1);
-		this.setsalary();}
+		this.setJobTitle(change);
+		this.setScalePoint(1);
+		this.setSalary();}
 		else {System.out.print("At the top\n");}
 		
 	}
@@ -235,10 +234,10 @@ public class Employee {
 	 * moves employee up a salary point
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
-	public void moveupsalarypoint() throws FileNotFoundException {//check if theycan move up
-		if(this.getTopPayscale()>this.scalepoint) {
-			this.setscalepoint(this.scalepoint+1);
-			this.setsalary();
+	public void moveUpSalaryPoint() throws FileNotFoundException {//check if theycan move up
+		if(this.getTopPayScale()>this.scalePoint) {
+			this.setScalePoint(this.scalePoint+1);
+			this.setSalary();
 			;}
 		else {System.out.println("Top of payscale\n");}
 	}
@@ -249,7 +248,7 @@ public class Employee {
 	
 	public String toString() {
 		//name,jobcatagory,jobtitle,scalepoint,salary
-		return this.name+","+this.jobcategory+","+this.jobtitle+","+this.scalepoint+","+this.getsalary();
+		return this.name+","+this.jobcategory+","+this.jobTitle+","+this.scalePoint+","+this.getSalary();
 	}
 	
 	
