@@ -7,7 +7,7 @@ public class employee {
 	private String name;
 	private int scalepoint;
 	private String jobtitle;
-	private String jobcatagory;
+	private String jobcategory;
 	private double salary;
     Scanner line ;  // Create a Scanner object
 
@@ -21,7 +21,7 @@ public class employee {
 	employee(String name,String jc,String jt,int sp)throws FileNotFoundException
 	{
 		this.name=name.toUpperCase();
-		this.jobcatagory=jc.toUpperCase();
+		this.jobcategory=jc.toUpperCase();
 		this.jobtitle=jt.toUpperCase();
 		this.scalepoint=sp;
 		this.setsalary();
@@ -37,7 +37,7 @@ public class employee {
 		String[] parts=input.split(",");
 
 		this.name=parts[0].toUpperCase();
-		this.jobcatagory=parts[1].toUpperCase();
+		this.jobcategory=parts[1].toUpperCase();
 		this.jobtitle=parts[2].toUpperCase();
 		this.scalepoint=Integer.parseInt(parts[3]);
 		this.setsalary();
@@ -79,8 +79,8 @@ public class employee {
 	 * @return The job catagory
 	 * 
 	 * */
-	public String getJobcatagory() {
-		return this.jobcatagory;
+	public String getJobcategory() {
+		return this.jobcategory;
 	}
 	/**
 	 * Gets the salary of this employee
@@ -128,9 +128,9 @@ public class employee {
 	/**
 	 * sets the job category ie. academic,information technology ect.
 	 * @param jc the title of the job gets in upper or lower case.*/
-	public void setjobcatagory(String jc) {
+	public void setjobcategory(String jc) {
 		jc.toUpperCase();
-		this.jobcatagory=jc;
+		this.jobcategory=jc;
 	} 
 	/**
 	 * sets the salary of this employee
@@ -202,7 +202,7 @@ public class employee {
 	 * @throws  FileNotFoundException if payscale.csv not found
 
 	 * */
-	public void moveupincatagory() throws FileNotFoundException {
+	public void moveupincategory() throws FileNotFoundException {
 		String current=this.getJobtitle();
 		line = new Scanner(new File("../group/src/payscale.csv"));
 		boolean done=false;
@@ -210,7 +210,7 @@ public class employee {
 		line.nextLine();
 		while(!done&&line.hasNext()) {
 			String input=line.nextLine();
-			if(input.equals(this.jobcatagory)) {
+			if(input.equals(this.jobcategory)) {
 				//in the right catagory
 				while(line.hasNext()&&!done) {
 					input=line.nextLine();
@@ -250,7 +250,7 @@ public class employee {
 	
 	public String toString() {
 		//name,jobcatagory,jobtitle,scalepoint,salary
-		return this.name+","+this.jobcatagory+","+this.jobtitle+","+this.scalepoint+","+this.getsalary();
+		return this.name+","+this.jobcategory+","+this.jobtitle+","+this.scalepoint+","+this.getsalary();
 	}
 	
 	
