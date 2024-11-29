@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/** 
+/**
  * Part-time employees must submit a pay claim form
  * by the second Friday of a month in order to be paid that month.
  * The payroll system should generate pay slips for all full-time staff
@@ -15,7 +15,7 @@ public class PartTimeEmployee extends Employee {
 
     /**
      * Constructor taking parameters from parent class (Employee) and adding hourly rate.
-     * 
+     *
      * @param name The name of the employee.
      * @param jobCategory The job category of the employee.
      * @param jobTitle The job title of the employee.
@@ -29,27 +29,27 @@ public class PartTimeEmployee extends Employee {
         this.hoursWorked = 0; // Hours reset each month, hence 0, new hours for current period are to be added using setter method below
     }
 
-    /** 
+    /**
      * Getter method for hourly rate.
-     * 
+     *
      * @return The hourly rate of the employee.
      */
     public double getHourlyRate() {
         return hourlyRate;
     }
 
-    /** 
+    /**
      * Getter method for hours worked.
-     * 
+     *
      * @return The total hours worked by employee in given month.
      */
     public double getHoursWorked() {
         return hoursWorked;
     }
 
-    /** 
+    /**
      * Setter method to set the hours worked in a given month.
-     * 
+     *
      * @param hours Number of hours worked this month.
      * @return The updated total hours worked.
      */
@@ -58,16 +58,16 @@ public class PartTimeEmployee extends Employee {
         return hoursWorked;
     }
 
-    /** 
+    /**
      * Method to set the employee's salary manually based on the gross pay.
      */
-    public void setsalary() {
+    public void setSalary() {
         this.manualsetSalary(grossPay());
     }
 
-    /** 
+    /**
      * Calculate the gross pay based on hours worked and hourly rate.
-     * 
+     *
      * @return The gross pay.
      */
     public double grossPay() {
@@ -75,7 +75,7 @@ public class PartTimeEmployee extends Employee {
         return grossPay;
     }
 
-    /** 
+    /**
      * Claim form method. This resets the hours worked and displays the gross pay.
      */
     public void payClaim() {
@@ -83,21 +83,21 @@ public class PartTimeEmployee extends Employee {
         System.out.printf("Pay claim submitted successfully. Gross pay: %.2f", grossPay());
     }
 
-    /** 
+    /**
      * Method to move the staff up to the next category, same as in the FullTimeEmployee class and Employee.
-     * 
+     *
      * @throws FileNotFoundException If the file with pay scale data is not found/invalid
      */
     @Override
-    public void moveupincatagory() throws FileNotFoundException {
-        String current = this.getJobtitle();
+    public void moveUpInCategory() throws FileNotFoundException {
+        String current = this.getJobTitle();
         line = new Scanner(new File("../group/src/payscale for partime.csv"));
         boolean done = false;
         String change = current;
         line.nextLine();
         while (!done && line.hasNext()) {
             String input = line.nextLine();
-            if (input.equals(this.getJobcatagory())) {
+            if (input.equals(this.getJobCategory())) {
                 // In the right category
                 while (line.hasNext() && !done) {
                     input = line.nextLine();
@@ -111,21 +111,21 @@ public class PartTimeEmployee extends Employee {
             }
         }
         if (change != current) {
-            this.setjobtitle(change);
-            this.setscalepoint(1);
-            this.setsalary();
+            this.setJobTitle(change);
+            this.setScalePoint(1);
+            this.setSalary();
         } else {
             System.out.print("At the top\n");
         }
     }
 
-    /** 
+    /**
      * Method to get the top pay scale for a given category.
-     * 
+     *
      * @return top pay scale for given category or -1 if not found.
      * @throws FileNotFoundException If the file with pay scale data is not found/invalid
      */
-    public int gettopPayscale() throws FileNotFoundException {
+    public int getTopPayScale() throws FileNotFoundException {
         line = new Scanner(new File("../group/src/payscale for partime.csv"));
 
         boolean done = false;
@@ -134,13 +134,13 @@ public class PartTimeEmployee extends Employee {
         while (line.hasNext()) {
             String input = line.nextLine();
 
-            if (input.equals(this.getJobcatagory())) {
+            if (input.equals(this.getJobCategory())) {
 
                 while (line.hasNext() && !done) {
                     input = line.nextLine();
                     String[] parts = input.split(",");
 
-                    if (this.getJobtitle().equals(parts[0])) {
+                    if (this.getJobTitle().equals(parts[0])) {
                         input = line.nextLine();
                         return Integer.parseInt(parts[1]);
                     }
@@ -152,29 +152,29 @@ public class PartTimeEmployee extends Employee {
         return -1;
     }
 
-    /** 
+    /**
      * Method to update the employee's salary if moved up in category.
-     * 
+     *
      * @throws FileNotFoundException If the file with pay scale data is not found/invalid
      */
-    public void moveupsalarypoint() throws FileNotFoundException {
+    public void moveUpSalaryPoint() throws FileNotFoundException {
         // Check if they can move up
-        if (this.gettopPayscale() > this.getScalepoint()) {
-            this.setscalepoint(this.getScalepoint() + 1);
-            this.setsalary();
+        if (this.gettopPayscale() > this.getScalePoint()) {
+            this.setScalePoint(this.getScalePoint() + 1);
+            this.setSalary();
         } else {
             System.out.println("Top of payscale\n");
         }
     }
 
-    /** 
+    /**
      * To string method
-     * 
+     *
      * @return A string containing name, job category, job title, scale point, hourly rate, and hours worked
      */
     @Override
     public String toString() {
-        return this.getName() + "," + this.getJobcatagory() + "," + this.getJobtitle() + "," + this.getScalepoint() + "," + this.hourlyRate + "," + this.hoursWorked;
+        return this.getName() + "," + this.getJobCategory() + "," + this.getJobTitle() + "," + this.getScalepPoint() + "," + this.hourlyRate + "," + this.hoursWorked;
     }
 }
 
