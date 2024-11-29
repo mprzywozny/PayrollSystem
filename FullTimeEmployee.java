@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/** 
+/**
  * In October each year,
  * full-time staff are moved to the next point on their salary scale
  * (if they are not already at the top of that scale).
@@ -15,7 +15,7 @@ public class FullTimeEmployee extends Employee {
 
     /**
      * Constructor using the same parameters as the parent class (employee).
-     * 
+     *
      * @param name The name of the employee.
      * @param jobCategory The job category of the employee.
      * @param jobTitle The job title of the employee ,e.g professor.
@@ -28,33 +28,33 @@ public class FullTimeEmployee extends Employee {
 
     /**
      * Method that moves staff to the next point on the salary scale if they are not already at the top.
-     * 
+     *
      * @throws FileNotFoundException If the file with pay scale is not found/ invalid.
      */
     @Override
     public void moveupsalarypoint() throws FileNotFoundException {
-        int topScale = getTopPayscale();
-        if (this.getScalepoint() < topScale) {
-            this.setscalepoint(this.getScalepoint() + 1);
-            this.setsalary();
-            System.out.printf("New scale point: %d\nNew salary: %.2f\n", this.getScalepoint(), this.getsalary());
+        int topScale = getTopPayScale();
+        if (this.getScalePoint() < topScale) {
+            this.setScalePoint(this.getScalePoint() + 1);
+            this.setSalary();
+            System.out.printf("New scale point: %d\nNew salary: %.2f\n", this.getScalePoint(), this.getSalary());
         } else {
             System.out.println("Reached top of payscale.");
         }
     }
 
-    /** 
-     * If the employee is already at the top of the pay scale, move them to the next job category 
+    /**
+     * If the employee is already at the top of the pay scale, move them to the next job category
      * and reset the scale point to 1.
-     * 
+     *
      * @throws FileNotFoundException If the file with pay scale is not found/ invalid.
      */
-    public void moveupincategory() throws FileNotFoundException {
+    public void moveUpInCategory() throws FileNotFoundException {
 
         /* Read the pay scale file using scanner */
         Scanner line = new Scanner(new File("../ulpay/src/payscale.csv"));
 
-        String currentTitle = this.getJobtitle(); // Current job title
+        String currentTitle = this.getJobTitle(); // Current job title
         String change = currentTitle; // Next job title (if exists)
 
         boolean categoryFound = false; // Is the category found?
@@ -68,7 +68,7 @@ public class FullTimeEmployee extends Employee {
             String input = line.nextLine();
 
             /* Check if the current line in the file matches the current job category */
-            if (input.equals(this.getJobcatagory())) {
+            if (input.equals(this.getJobCategory())) {
                 categoryFound = true;
                 continue;
             }
@@ -93,10 +93,10 @@ public class FullTimeEmployee extends Employee {
 
         /* If promoted, change job title, update salary and reset scale point back to 1, using methods from the parent class */
         if (change != currentTitle) {
-            this.setjobtitle(change);
-            this.setscalepoint(1);
-            this.setsalary();
-            System.out.printf("New position: %s\nNew scale point: %d\nNew salary: %f\n", getJobtitle(), getScalepoint(), getsalary());
+            this.setJobTitle(change);
+            this.setScalePoint(1);
+            this.setSalary();
+            System.out.printf("New position: %s\nNew scale point: %d\nNew salary: %f\n", getJobTitle(), getScalePoint(), getSalary());
         } else {
             System.out.print("At the top\n");
         }
