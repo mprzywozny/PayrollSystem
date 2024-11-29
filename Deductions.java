@@ -1,5 +1,9 @@
 import java.io.FileNotFoundException;
 
+/**Deductions class that calculates all necessary deductions that need to be taken away from gross salary (PRSI, USC, Income Tax) based on employee’s earnings 
+Then, it combines all those deductions and calculates net salary by subtracting the sum from gross salary 
+*/
+
 public class Deductions {
     private String employee;
     private double grossSalary;
