@@ -1,3 +1,4 @@
+package ulpayproject;
 import java.io.FileNotFoundException;
 
 /**Deductions class that calculates all necessary deductions that need to be taken away from gross salary (PRSI, USC, Income Tax) based on employee’s earnings 
