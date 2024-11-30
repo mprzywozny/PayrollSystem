@@ -91,7 +91,7 @@ public class PartTimeEmployee extends Employee {
     @Override
     public void moveUpInCategory() throws FileNotFoundException {
         String current = this.getJobTitle();
-        line = new Scanner(new File("../group/src/payscale for partime.csv"));
+        line = new Scanner(new File("src/PayscaleForParTime.csv"));
         boolean done = false;
         String change = current;
         line.nextLine();
@@ -126,7 +126,7 @@ public class PartTimeEmployee extends Employee {
      * @throws FileNotFoundException If the file with pay scale data is not found/invalid
      */
     public int getTopPayScale() throws FileNotFoundException {
-        line = new Scanner(new File("../group/src/payscale for partime.csv"));
+        line = new Scanner(new File("src/PayscaleForParTime.csv"));
 
         boolean done = false;
         // int topPayscale;
