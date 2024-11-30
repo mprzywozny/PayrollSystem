@@ -18,10 +18,10 @@ public class Cli {
 	private Scanner line;
 	private Employee e;
 	private LocalDate Today;
-	static String[] userTypes= {"employee","human resources","admin"};
+	static String[] userTypes= {"Employee","Human Resources","Admin"};
 	//static Overwrite o=new Overwrite();
 	static Deductions d;
-	static Payslip paySlip;
+	static PaySlip paySlip;
 	/**Initializes the scanner*/
 	public Cli()
 	{
@@ -84,11 +84,11 @@ public class Cli {
 							double HOURLYRATE = Double.parseDouble(eds[4]);
 
 							double HOURSDONE=Double.parseDouble(eds[5]);
-							d=new Deductions(check[0],HOURSDONE*HOURLYRATE);
+							d = new Deductions(check[0],HOURSDONE*HOURLYRATE);
 							//System.out.println(d.toString());
 							//String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
 							String netPay = Double.toString(HOURSDONE*HOURLYRATE);
-							paySlip = new Payslip(eds[0],eds[2],eds[3],(HOURSDONE*HOURLYRATE),d.deductionTotal(),d.getGrossSalary());
+							paySlip = new PaySlip(eds[0],eds[2],eds[3],(HOURSDONE*HOURLYRATE),d.deductionTotal(),d.getGrossSalary());
 							addToPaySlip(check[0],paySlip.toString());
 							payClaimDone(check[0]);
 						}}}
@@ -102,7 +102,7 @@ public class Cli {
 					d = new Deductions(s[0],Double.parseDouble(s[4]));
 					//NAME,JOBCATAGORY,JOBTITLE,SCALEPOINT,SALARY
 					//String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
-					paySlip = new Payslip(s[0],s[2],s[3],Double.parseDouble(s[4]),d.deductionTotal(),d.getGrossSalary());
+					paySlip = new PaySlip(s[0],s[2],s[3],Double.parseDouble(s[4]),d.deductionTotal(),d.getGrossSalary());
 					addToPaySlip(s[0],paySlip.toString());
 
 					//print to payslip
@@ -139,7 +139,7 @@ public class Cli {
 					if(ut == 1) {System.out.println("Only admins can add employees.");}
 					else {
 						userType = userTypes[ut-1];
-						user u = new user(un,userType);}
+						User u = new User(un,userType);}
 
 				}
 				else if(answer.toUpperCase().equals("N")) {
@@ -223,7 +223,7 @@ public class Cli {
 					//getchoicesofpayslip(String Name)
 
 					if(!(getchoicesofpayslip(Name).isEmpty())){
-						ArrayList<String>  = getchoicesofpayslip(Name);
+						ArrayList<String>choices  = getchoicesofpayslip(Name);
 						System.out.println("Input date:");
 						char ch = 'A';
 						for (String choice : choices)
@@ -270,7 +270,7 @@ public class Cli {
 								if(who.toLowerCase().equals(parts[0].toLowerCase()))
 								{System.out.println(parts[0]+",is a "+parts[2]+" at scale point "+parts[3]);
 									foundPerson = true;
-									e =  FullTimeEmployee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]));
+									e = new FullTimeEmployee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]));
 								}
 							}
 
@@ -346,7 +346,7 @@ public class Cli {
 
 								else if(abq.toUpperCase().equals("B")) {
 									//name,jobcatagory,jobtitle,scalepoint
-									((PartTimeEmployee) e).moveUpInCatagory();
+									((PartTimeEmployee) e).moveUpInCategory();
 									String[] format = ((PartTimeEmployee) e).toString().split(",");
 									System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 									String change = "You have been moved up to the next job category";
@@ -431,7 +431,7 @@ public class Cli {
 										payScalePoint = in.nextInt();}
 									//info gathered
 									//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
-									user u = new user(Name,"employee");
+									User u = new User(Name,"employee");
 									FullTimeEmployee f = new FullTimeEmployee(Name,jobCategory,jobTitle,payScalePoint);
 									writeToListOfUsers(f.toString(),"employees");
 									System.out.print("Added: " +f.toString());
@@ -506,7 +506,7 @@ public class Cli {
 									//info gathered
 									//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
 									PartTimeEmployee f = new PartTimeEmployee(Name,jobCategory,jobTitle,payScalePoint,hourlyrate);
-									user u = new user(Name,"Employee");
+									User u = new User(Name,"Employee");
 									writeToListOfUsers(f.toString(),"Part time employees");
 									System.out.print("Added: "+f.toString());
 									more = false;
@@ -718,7 +718,7 @@ public class Cli {
 		line1 = new Scanner(new File("src/PayscaleForParTime.csv"));
 		ArrayList<String> choices = new ArrayList<String>();
 		while(line1.hasNext()) {
-			String input=line1.nextLine();
+			String input = line1.nextLine();
 			if(input.split(",").length == 1) {
 				choices.add(input);
 			}
