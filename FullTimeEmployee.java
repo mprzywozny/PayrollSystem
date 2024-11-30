@@ -52,7 +52,7 @@ public class FullTimeEmployee extends Employee {
     public void moveUpInCategory() throws FileNotFoundException {
 
         /* Read the pay scale file using scanner */
-        Scanner line = new Scanner(new File("../ulpay/src/payscale.csv"));
+        Scanner line = new Scanner(new File("src/PayScale.csv"));
 
         String currentTitle = this.getJobTitle(); // Current job title
         String change = currentTitle; // Next job title (if exists)
