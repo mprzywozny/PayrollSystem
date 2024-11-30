@@ -4,7 +4,7 @@ import java.time.LocalDate;
  *The Payslip class represents an employee's payslip,
  *including their personal details, salary information and deductions.
  */
-public class Payslip {
+public class PaySlip {
     //Attributes of the Payslip
     private String employeeName; //Employee's full name
     private String jobTitle; // Employee's Job title
@@ -24,7 +24,7 @@ public class Payslip {
      * @param deductions   the total deductions from gross salary
      * @param grossSalary  the total gross salary before deductions
      */
-    public Payslip(String employeeName, String jobTitle, String scalePoint, double netSalary, double deductions, double grossSalary) {
+    public PaySlip(String employeeName, String jobTitle, String scalePoint, double netSalary, double deductions, double grossSalary) {
         this.employeeName = employeeName;
         this.jobTitle = jobTitle;
         this.scalePoint = scalePoint;
