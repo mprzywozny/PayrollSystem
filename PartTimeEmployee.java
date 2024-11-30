@@ -159,7 +159,7 @@ public class PartTimeEmployee extends Employee {
      */
     public void moveUpSalaryPoint() throws FileNotFoundException {
         // Check if they can move up
-        if (this.gettopPayscale() > this.getScalePoint()) {
+        if (this.getTopPayScale() > this.getScalePoint()) {
             this.setScalePoint(this.getScalePoint() + 1);
             this.setSalary();
         } else {
@@ -174,7 +174,6 @@ public class PartTimeEmployee extends Employee {
      */
     @Override
     public String toString() {
-        return this.getName() + "," + this.getJobCategory() + "," + this.getJobTitle() + "," + this.getScalepPoint() + "," + this.hourlyRate + "," + this.hoursWorked;
+        return this.getName() + "," + this.getJobCategory() + "," + this.getJobTitle() + "," + this.getScalePoint() + "," + this.hourlyRate + "," + this.hoursWorked;
     }
 }
-
