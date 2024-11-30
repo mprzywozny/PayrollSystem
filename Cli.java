@@ -1,3 +1,4 @@
+package ulpayproject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,10 +19,10 @@ public class Cli {
 	private Scanner line;
 	private Employee e;
 	private LocalDate Today;
-	static String[] userTypes= {"Employee","Human Resources","Admin"};
+	static String[] userTypes= {"employee","human resources","admin"};
 	//static Overwrite o=new Overwrite();
 	static Deductions d;
-	static PaySlip paySlip;
+	static Payslip paySlip;
 	/**Initializes the scanner*/
 	public Cli()
 	{
@@ -84,11 +85,11 @@ public class Cli {
 							double HOURLYRATE = Double.parseDouble(eds[4]);
 
 							double HOURSDONE=Double.parseDouble(eds[5]);
-							d = new Deductions(check[0],HOURSDONE*HOURLYRATE);
+							d=new Deductions(check[0],HOURSDONE*HOURLYRATE);
 							//System.out.println(d.toString());
 							//String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
 							String netPay = Double.toString(HOURSDONE*HOURLYRATE);
-							paySlip = new PaySlip(eds[0],eds[2],eds[3],(HOURSDONE*HOURLYRATE),d.deductionTotal(),d.getGrossSalary());
+							paySlip = new Payslip(eds[0],eds[2],eds[3],(HOURSDONE*HOURLYRATE),d.deductionTotal(),d.getGrossSalary());
 							addToPaySlip(check[0],paySlip.toString());
 							payClaimDone(check[0]);
 						}}}
@@ -102,7 +103,7 @@ public class Cli {
 					d = new Deductions(s[0],Double.parseDouble(s[4]));
 					//NAME,JOBCATAGORY,JOBTITLE,SCALEPOINT,SALARY
 					//String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
-					paySlip = new PaySlip(s[0],s[2],s[3],Double.parseDouble(s[4]),d.deductionTotal(),d.getGrossSalary());
+					paySlip = new Payslip(s[0],s[2],s[3],Double.parseDouble(s[4]),d.deductionTotal(),d.getGrossSalary());
 					addToPaySlip(s[0],paySlip.toString());
 
 					//print to payslip
@@ -152,7 +153,7 @@ public class Cli {
 			if (userType == null) {
 
 			}
-			else if(userType.equals("Employee")) {
+			else if(userType.equals("employee")) {
 				//employeecli
 
 
@@ -183,7 +184,7 @@ public class Cli {
 				//see details
 
 				String info = "";
-				info = searchEmployees(Name,"Parttime employees");
+				info = searchEmployees(Name,"PartTimeEmployees");
 				if(!info.equals(""))	{
 					String[] format = info.split(",");
 
@@ -223,7 +224,7 @@ public class Cli {
 					//getchoicesofpayslip(String Name)
 
 					if(!(getchoicesofpayslip(Name).isEmpty())){
-						ArrayList<String>choices  = getchoicesofpayslip(Name);
+						ArrayList<String> choices = getchoicesofpayslip(Name);
 						System.out.println("Input date:");
 						char ch = 'A';
 						for (String choice : choices)
@@ -246,7 +247,7 @@ public class Cli {
 
 
 			//hr
-			else if(userType.equals("Human resources")){
+			else if(userType.equals("human resources")){
 				//hr cli
 				boolean hrworking = true;
 				while(hrworking == true && more == true) {
@@ -270,7 +271,7 @@ public class Cli {
 								if(who.toLowerCase().equals(parts[0].toLowerCase()))
 								{System.out.println(parts[0]+",is a "+parts[2]+" at scale point "+parts[3]);
 									foundPerson = true;
-									e = new FullTimeEmployee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]));
+									e =new  FullTimeEmployee(parts[0],parts[1],parts[2],Integer.parseInt(parts[3]));
 								}
 							}
 
@@ -281,7 +282,7 @@ public class Cli {
 
 								if(abq.toUpperCase().equals("A")) {
 									//name,jobcatagory,jobtitle,scalepoint
-									((FullTimeEmployee)e).moveupsalarypoint();
+									((FullTimeEmployee)e).moveUpSalaryPoint();
 									String[] format = e.toString().split(",");
 									System.out.println(format[0]+" is a "+format[2]+" at scale point "+format[3]+"");
 									String change = "You have been moved up a scale point";
@@ -374,7 +375,7 @@ public class Cli {
 			}
 
 			//admin
-			else if(userType.equals("Admin")){
+			else if(userType.equals("admin")){
 				//admin cli
 
 				//add employee
@@ -539,6 +540,10 @@ public class Cli {
 			}
 
 		}}
+
+
+
+
 
 
 
@@ -718,7 +723,7 @@ public class Cli {
 		line1 = new Scanner(new File("src/PayscaleForParTime.csv"));
 		ArrayList<String> choices = new ArrayList<String>();
 		while(line1.hasNext()) {
-			String input = line1.nextLine();
+			String input=line1.nextLine();
 			if(input.split(",").length == 1) {
 				choices.add(input);
 			}
@@ -965,7 +970,7 @@ public class Cli {
 	 * @return the payslip of this employee at this date
 	 *  @throws FileNotFoundException This is thrown when the csv file was not found*/
 	public String seePaySlip(String name, String inputDate) throws FileNotFoundException {
-		line1 = new Scanner(new File("/src/PaySlip.csv"));
+		line1 = new Scanner(new File("src/PaySlip.csv"));
 		String ret = "";
 		while(line1.hasNext()) {
 			String i =line1.nextLine();
