@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class cli {
 		//static Overwrite o=new Overwrite();
 		static Deductions d;
 		static Payslip payslip;
-		/**initialises the scanner*/
+		/**Initializes the scanner*/
 		 public cli()
 		   {
 		      in = new Scanner(System.in);
@@ -38,12 +39,22 @@ public class cli {
 		      
 		      while (more)
 		      { 
-		    	 // Today=LocalDate.now();
+		    	 Today=LocalDate.now();
    			
-		    	 LocalDate Today = LocalDate.of(2024, 11, 25);
+		    	// LocalDate Today = LocalDate.of(2024, 10, 31);
    			//used for testing
-		    	
-   			
+		    	if(Today.getMonth()==Month.OCTOBER&&Today.getDayOfMonth()==31) 
+		    	{Scanner employeetopromote=new Scanner(new File("../group/src/employees.csv"));
+		    	employeetopromote.nextLine();
+		    		while(employeetopromote.hasNext()) {
+		    			String[] ein=employeetopromote.nextLine().split(",");
+		    			//NAME,JOBCATAGORY,JOBTITLE,SCALEPOINT,SALARY
+		    			FullTimeEmployee fte= new FullTimeEmployee(ein[0],ein[1],ein[2],Integer.parseInt(ein[3]));
+		    			((FullTimeEmployee)fte).moveupsalarypoint();
+		    			overwrite_employee(fte);
+		    		}
+		    	}
+		      
    			if(Today.getDayOfMonth()==25) {
 				//generate payslip	
    				//find names in sub pay slip
@@ -171,14 +182,13 @@ public class cli {
 		     			}
 		     			}
 		     			//see details
-		     			System.out.println("Are you p)artime or f)ulltime");
-		     			answer = in.nextLine();
-		     			String info="";
-		     			if(answer.toUpperCase().equals("P")) {
-		     				info=searchemployees(Name,"Parttime employees");
+		     			
+						String info="";
+		     			info=searchemployees(Name,"Parttime employees");
+		     			if(!info.equals(""))	{
 		     				String[] format=info.split(",");
 		     				
-		     				System.out.printf("name: %s\nJob title: %s\nScale point: %s\nHourly rate: %s\n", format[0], format[2], format[3], format[4]);
+		     				System.out.printf("name: %s\nJob title: %s\nScale point: %s\nHourly rate: %s\nHours worked:%s\n", format[0], format[2], format[3], format[4],format[5]);
 		     				//Part-time employees must submit a pay claim form by the second Friday of a month in order to be paid that month.  
 		     				//if not already
 		     				if(!inpayclaim(Name)){
@@ -193,14 +203,15 @@ public class cli {
 		     					System.out.println("payclaim form submitted");
 		     				}
 		     			}
-		     			else if(answer.toUpperCase().equals("F")) {
+		     			
 		     				info=searchemployees(Name,"employees");
+		     				if(!info.equals(null))	{
 		     				String[] format=info.split(",");		     				
 		     				System.out.printf("name: %s\nJob title: %s\nscale point: %s\nsalary: %s\n", format[0], format[2], format[3], format[4]);
 		     				//The payroll system should generate pay slips for all full-time staff and hourly paid staff (with current claims)
 		     				//on the 25th day of each month. 
-		     				
-		     			}
+		     				}
+		     			
 		     			//pay claim form
 		     			
 		     			//see pay slips
