@@ -44,7 +44,7 @@ public class Cli {
 			// LocalDate Today = LocalDate.of(2024, 10, 31);
 			//used for testing
 			if(Today.getMonth() == Month.OCTOBER && Today.getDayOfMonth() == 31)
-			{Scanner employeeToPromote = new Scanner(new File("/src/Employees.csv"));
+			{Scanner employeeToPromote = new Scanner(new File("src/Employees.csv"));
 				employeeToPromote.nextLine();
 				while(employeeToPromote.hasNext()) {
 					String[] ein = employeeToPromote.nextLine().split(",");
@@ -94,7 +94,7 @@ public class Cli {
 							payClaimDone(check[0]);
 						}}}
 
-				line = new Scanner(new File("/src/Employees.csv"));
+				line = new Scanner(new File("src/Employees.csv"));
 				line.nextLine();
 				while(line.hasNext()) {
 					String i = line.nextLine();
@@ -114,7 +114,7 @@ public class Cli {
 			userType = null;
 			System.out.println("User name:");
 			String user = in.nextLine().toUpperCase();
-			userFind = new Scanner(new File("/src/Users.csv"));
+			userFind = new Scanner(new File("src/Users.csv"));
 			boolean done = false;
 			while(userFind.hasNext() && done != true) {
 
@@ -204,7 +204,7 @@ public class Cli {
 					}
 				}
 
-				info = searchEmployees(Name,"employees");
+				info = searchEmployees(Name,"Employees");
 				if(!info.equals(null))	{
 					String[] format = info.split(",");
 					System.out.printf("name: %s\nJob title: %s\nscale point: %s\nsalary: %s\n", format[0], format[2], format[3], format[4]);
@@ -247,7 +247,7 @@ public class Cli {
 
 
 			//hr
-			else if(userType.equals("human resources")){
+			else if(userType.equals("Human resources")){
 				//hr cli
 				boolean hrworking = true;
 				while(hrworking == true && more == true) {
@@ -260,7 +260,7 @@ public class Cli {
 						if(fpq.toUpperCase().equals("F")) {
 							System.out.println("Type the name of the person to promote: ");
 							String who = in.nextLine();
-							Scanner line = new Scanner(new File("/src/Employees.csv"));
+							Scanner line = new Scanner(new File("src/Employees.csv"));
 							String header = line.nextLine();
 							boolean foundPerson = false;
 							while(line.hasNext()) {
