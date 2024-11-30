@@ -52,7 +52,7 @@ public class Employee {
 	 * @throws FileNotFoundException If a file is not found this is thrown
 	 * */
 	public double getsalary() throws FileNotFoundException{
-		line = new Scanner(new File("../ulpay/src/payscale.csv"));
+		line = new Scanner(new File("src/PayScale.csv"));
 		boolean done =false;
 		String header =line.nextLine();
 		while(line.hasNext())
@@ -141,7 +141,7 @@ public class Employee {
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public void setSalary() throws FileNotFoundException {
-		line = new Scanner(new File("../group/src/payscale.csv"));
+		line = new Scanner(new File("src/PayScale.csv"));
 		boolean done = false;
 		line.nextLine();
 		while(line.hasNext()&&!done)
@@ -168,7 +168,7 @@ public class Employee {
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public int getTopPayScale() throws FileNotFoundException {
-		line = new Scanner(new File("../group/src/payscale.csv"));
+		line = new Scanner(new File("src/PayScale.csv"));
 		boolean done = false;
 		int topPayScale;
 		//line.nextLine();
@@ -201,7 +201,7 @@ public class Employee {
 	 * */
 	public void moveUpInCategory() throws FileNotFoundException {
 		String current = this.getJobTitle();
-		line = new Scanner(new File("../group/src/payscale.csv"));
+		line = new Scanner(new File("src/PayScale.csv"));
 		boolean done = false;
 		String change = current;
 		line.nextLine();
