@@ -1,14 +1,13 @@
 package ulpayproject;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
+
 /**class that writes users to the csv file and puts them in the right format*/
 public class User {
-private String id;//input
-private String userType;//set
-private Scanner s;
+//private String id;//input
+//private String userType;//set
+//private Scanner s;
 PrintWriter writer;
 
 
@@ -24,7 +23,7 @@ User(String id,String u) throws IOException{
  * */
 public void writeToListOfUsers(String x) throws IOException {
 	//find a new line
-	writer = new PrintWriter(new FileWriter("src/Users.csv",true));
+	writer = new PrintWriter(new FileWriter("./Users.csv",true));
 	
 	writer.println(x);
 	writer.close();
