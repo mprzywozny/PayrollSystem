@@ -33,7 +33,7 @@ public class FullTimeEmployee extends Employee {
      * @throws FileNotFoundException If the file with pay scale is not found/ invalid.
      */
     @Override
-    public void moveupsalarypoint() throws FileNotFoundException {
+    public void moveUpSalaryPoint() throws FileNotFoundException {
         int topScale = getTopPayScale();
         if (this.getScalePoint() < topScale) {
             this.setScalePoint(this.getScalePoint() + 1);
@@ -53,7 +53,7 @@ public class FullTimeEmployee extends Employee {
     public void moveUpInCategory() throws FileNotFoundException {
 
         /* Read the pay scale file using scanner */
-        Scanner line = new Scanner(new File("src/PayScale.csv"));
+        Scanner line = new Scanner(new File("./PayScale.csv"));
 
         String currentTitle = this.getJobTitle(); // Current job title
         String change = currentTitle; // Next job title (if exists)
@@ -89,7 +89,7 @@ public class FullTimeEmployee extends Employee {
                     change = parts[0];
                 }
             }
-
+           
         }
 
         /* If promoted, change job title, update salary and reset scale point back to 1, using methods from the parent class */
@@ -101,5 +101,6 @@ public class FullTimeEmployee extends Employee {
         } else {
             System.out.print("At the top\n");
         }
+        line.close();
     }
 }
