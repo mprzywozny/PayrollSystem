@@ -101,6 +101,7 @@ public class Cli {
 					String i = line.nextLine();
 					String[] s = i.split(",");
 
+
 					d = new Deductions(s[0],Double.parseDouble(s[4]));
 					//NAME,JOBCATAGORY,JOBTITLE,SCALEPOINT,SALARY
 					//String employeeName, String jobTitle, int scalePoint, double salary, double deductions,double grossSalary
@@ -511,7 +512,7 @@ public class Cli {
 									//info gathered
 									//System.out.printf("jc %s jt %s psp %d\n",jobCategory,jobTitle,payscalepoint);
 									PartTimeEmployee f = new PartTimeEmployee(Name,jobCategory,jobTitle,payScalePoint,hourlyrate);
-									User u = new User(Name,"Employee");
+									User u = new User(Name,"employee");
 									writeToListOfUsers(f.toString(),"PartTimeEmployees");
 									System.out.print("Added: "+f.toString());
 									more = false;
