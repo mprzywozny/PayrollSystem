@@ -1,3 +1,4 @@
+
 package ulpayproject;
 import  java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,7 @@ public class Employee {
 	 * @param jt their job title
 	 * @param sp the scale point they are on
 	 * @throws FileNotFoundException If a file is not found this is thrown*/
-	Employee(String name,String jc,String jt,int sp)throws FileNotFoundException
+	public Employee(String name,String jc,String jt,int sp)throws FileNotFoundException
 	{
 		this.name = name.toUpperCase();
 		this.jobCategory = jc.toUpperCase();
@@ -52,9 +53,9 @@ public class Employee {
 	 * @throws FileNotFoundException If a file is not found this is thrown
 	 * */
 	public double getsalary() throws FileNotFoundException{
-		line = new Scanner(new File("src/PayScale.csv"));
-		boolean done =false;
-		String header =line.nextLine();
+		line = new Scanner(new File("./PayScale.csv"));
+		
+		line.nextLine();
 		while(line.hasNext())
 		{
 			String input=line.nextLine();
@@ -141,7 +142,7 @@ public class Employee {
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public void setSalary() throws FileNotFoundException {
-		line = new Scanner(new File("src/PayScale.csv"));
+		line = new Scanner(new File("./PayScale.csv"));
 		boolean done = false;
 		line.nextLine();
 		while(line.hasNext()&&!done)
@@ -168,9 +169,9 @@ public class Employee {
 	 *@throws  FileNotFoundException if payscale.csv not found
 	 * */
 	public int getTopPayScale() throws FileNotFoundException {
-		line = new Scanner(new File("src/PayScale.csv"));
+		line = new Scanner(new File("./PayScale.csv"));
 		boolean done = false;
-		int topPayScale;
+		
 		//line.nextLine();
 		while(line.hasNext())
 		{
@@ -183,7 +184,7 @@ public class Employee {
 					{
 						input=line.nextLine();
 
-						return topPayScale = Integer.parseInt(parts[1]);
+						return Integer.parseInt(parts[1]);
 					}
 
 				}
@@ -201,7 +202,7 @@ public class Employee {
 	 * */
 	public void moveUpInCategory() throws FileNotFoundException {
 		String current = this.getJobTitle();
-		line = new Scanner(new File("src/PayScale.csv"));
+		line = new Scanner(new File("./PayScale.csv"));
 		boolean done = false;
 		String change = current;
 		line.nextLine();
@@ -254,4 +255,3 @@ public class Employee {
 
 
 }
-
